@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GotApp · Presentación</title>
+<meta name="description" content="GotApp: app para reportar pérdidas de agua en la vía pública en Mendoza. Presentación del proyecto.">
+<link rel="icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-950:#031330; --navy-900:#04193D; --navy-800:#072A5E; --navy-700:#0B3F86;
+    --aqua-50:#EAF7FB; --aqua-100:#D0EEF6; --aqua-300:#6CC5DF; --aqua-500:#0793B6; --aqua-600:#067A98; --aqua-700:#055F77;
+    --gray-0:#FFFFFF; --gray-25:#F6F8FB; --gray-50:#EEF2F6; --gray-100:#E2E8EF; --gray-200:#C9D2DD; --gray-500:#5C6A7C; --gray-600:#455263; --gray-900:#0E1726;
+    --green-50:#E6F6EC; --green-600:#1A7F45; --amber-50:#FFF4DE; --amber-600:#9A5B00; --red-50:#FDECEC; --red-600:#C2281F;
+    --bg:var(--gray-25); --surface:var(--gray-0); --text:var(--gray-900); --muted:var(--gray-600); --brand:var(--navy-800); --accent:var(--aqua-500); --line:var(--gray-100);
+    --radius:24px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:var(--navy-950);overflow:hidden}
+  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
+  img{display:block;max-width:100%}
+
+  /* ---------- Stage ---------- */
+  .viewport{position:fixed;inset:0;overflow:hidden}
+  .stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;transform:translate(-50%,-50%)}
+  .slide{position:absolute;inset:0;background:var(--bg);padding:96px 120px 110px;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateX(40px);transition:opacity .45s ease,transform .45s ease,visibility .45s;overflow:hidden;border-radius:4px}
+  .slide.active{opacity:1;visibility:visible;transform:none}
+  .slide.prev{transform:translateX(-40px)}
+  .slide.dark{background:var(--navy-800);color:#fff}
+
+  /* ---------- Type ---------- */
+  .eyebrow{display:inline-flex;align-items:center;gap:14px;font-size:20px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--aqua-600);margin-bottom:22px}
+  .eyebrow .num{display:inline-grid;place-items:center;min-width:52px;height:36px;padding:0 12px;border-radius:999px;background:var(--aqua-50);color:var(--brand);font-variant-numeric:tabular-nums;letter-spacing:0}
+  .dark .eyebrow{color:var(--aqua-300)} .dark .eyebrow .num{background:rgba(255,255,255,.12);color:#fff}
+  h1{font-size:112px;line-height:1;font-weight:800;letter-spacing:-.035em;color:var(--brand)}
+  h2{font-size:64px;line-height:1.08;font-weight:700;letter-spacing:-.025em;color:var(--brand);max-width:1400px;text-wrap:balance}
+  .dark h1,.dark h2{color:#fff}
+  h3{font-size:30px;line-height:1.2;font-weight:700;letter-spacing:-.01em;color:var(--brand)}
+  .lead{font-size:30px;line-height:1.5;color:var(--muted);max-width:1180px;margin-top:24px;text-wrap:pretty}
+  .dark .lead{color:rgba(255,255,255,.82)}
+  p,li{font-size:24px;line-height:1.5;color:var(--muted)}
+  strong{color:var(--text);font-weight:650}
+  .dark strong{color:#fff}
+
+  /* ---------- Layout helpers ---------- */
+  .grow{flex:1;min-height:0}
+  .row{display:flex;gap:40px}
+  .cols-2{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+  .cols-3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+  .cols-4{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+  .mt-s{margin-top:24px}.mt-m{margin-top:44px}.mt-l{margin-top:64px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:36px}
+  .card h3{margin-bottom:12px}
+  .card.tint{background:var(--aqua-50);border-color:transparent}
+  .card.brand{background:var(--brand);border-color:transparent}
+  .card.brand h3,.card.brand p,.card.brand strong{color:#fff}
+  .card.brand p{opacity:.85}
+  .icon{width:56px;height:56px;border-radius:16px;background:var(--aqua-50);display:grid;place-items:center;margin-bottom:22px;color:var(--aqua-600)}
+  .card.tint .icon{background:#fff}
+  .card.brand .icon{background:rgba(255,255,255,.12);color:#fff}
+  .icon svg{width:30px;height:30px}
+
+  /* ---------- Stats ---------- */
+  .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:36px 36px 32px}
+  .stat .value{font-size:88px;line-height:1;font-weight:800;letter-spacing:-.04em;color:var(--brand);font-variant-numeric:tabular-nums}
+  .stat .value small{font-size:44px;letter-spacing:-.02em}
+  .stat .label{margin-top:16px;font-size:23px;line-height:1.45;color:var(--muted)}
+  .stat.accent{background:var(--brand);border-color:transparent}
+  .stat.accent .value{color:#fff}.stat.accent .label{color:rgba(255,255,255,.85)}
+  .source{font-size:17px;color:var(--gray-500);margin-top:14px}
+
+  /* ---------- Quote ---------- */
+  .quote{border-left:6px solid var(--accent);padding:6px 0 6px 32px}
+  .quote p{font-size:34px;line-height:1.35;color:var(--text);font-weight:600;letter-spacing:-.01em}
+  .dark .quote p{color:#fff}
+  .quote cite{display:block;margin-top:12px;font-style:normal;font-size:20px;color:var(--gray-500)}
+  .dark .quote cite{color:rgba(255,255,255,.7)}
+
+  /* ---------- Phones ---------- */
+  .phone{width:300px;aspect-ratio:390/844;border-radius:46px;padding:10px;background:var(--gray-900);box-shadow:0 40px 80px -20px rgba(4,25,61,.35),0 0 0 1px rgba(255,255,255,.04) inset;flex:none}
+  .phone img{width:100%;height:100%;object-fit:cover;border-radius:37px;background:#fff}
+  .phone.sm{width:236px;border-radius:38px;padding:8px}.phone.sm img{border-radius:31px}
+  .phone.xs{width:176px;border-radius:30px;padding:7px}.phone.xs img{border-radius:24px}
+  .compact .stat{padding:28px 30px 26px}.compact .stat .value{font-size:72px}.compact .stat .value small{font-size:36px}
+  .compact th,.compact td{padding:15px 24px}
+  .phone.lg{width:360px}
+  .phone.v1 img{object-fit:cover}
+  .caption{margin-top:20px;text-align:center;font-size:21px;font-weight:600;color:var(--brand)}
+  .caption span{display:block;font-weight:400;font-size:18px;color:var(--muted);margin-top:4px}
+
+  /* ---------- Chips / tags ---------- */
+  .tags{display:flex;flex-wrap:wrap;gap:12px}
+  .tag{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:999px;background:var(--surface);border:1px solid var(--gray-200);font-size:20px;font-weight:600;color:var(--brand)}
+  .dark .tag{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff}
+  .status{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 16px;border-radius:999px;font-size:18px;font-weight:600}
+  .s-info{background:var(--aqua-50);color:var(--aqua-700)} .s-warn{background:var(--amber-50);color:var(--amber-600)} .s-ok{background:var(--green-50);color:var(--green-600)}
+
+  /* ---------- Journey ---------- */
+  .journey{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;align-items:start}
+  .step-n{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--brand);color:#fff;font-weight:700;font-size:20px;margin:0 auto 18px}
+  .journey .phone{margin:0 auto}
+
+  /* ---------- Table ---------- */
+  table{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  th,td{padding:22px 26px;text-align:left;font-size:22px;border-bottom:1px solid var(--line);vertical-align:middle}
+  th{font-size:18px;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);font-weight:600;background:var(--gray-25)}
+  tr:last-child td{border-bottom:0}
+  td:first-child{font-weight:600;color:var(--text)}
+  td.gotapp,th.gotapp{background:var(--aqua-50);color:var(--brand);font-weight:700}
+  .yes{color:var(--green-600);font-weight:700}.no{color:var(--red-600);font-weight:700}.mid{color:var(--amber-600);font-weight:700}
+
+  /* ---------- Timeline ---------- */
+  .timeline{display:flex;flex-direction:column;gap:0}
+  .tl{display:grid;grid-template-columns:44px 1fr;gap:22px;position:relative;padding-bottom:30px}
+  .tl:not(:last-child)::before{content:"";position:absolute;left:21px;top:44px;bottom:0;width:3px;background:var(--gray-200)}
+  .tl.done:not(:last-child)::before{background:var(--green-600)}
+  .dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:3px solid var(--gray-200)}
+  .tl.done .dot{background:var(--green-600);border-color:var(--green-600);color:#fff}
+  .tl.now .dot{border-color:var(--accent);background:var(--aqua-50)} .tl.now .dot::after{content:"";width:14px;height:14px;border-radius:50%;background:var(--accent)}
+  .tl h3{font-size:26px;margin-bottom:4px}
+  .tl p{font-size:21px}
+
+  /* ---------- Cover ---------- */
+  .cover{background:radial-gradient(1200px 700px at 85% 30%,rgba(7,147,182,.35),transparent 60%),linear-gradient(160deg,var(--navy-800),var(--navy-950));color:#fff;padding:110px 120px}
+  .cover .logo{width:130px;height:auto}
+  .cover .tagline{font-size:40px;line-height:1.35;color:rgba(255,255,255,.88);max-width:900px;margin-top:28px;font-weight:500;letter-spacing:-.01em}
+  .cover .team{margin-top:auto;font-size:20px;color:rgba(255,255,255,.7);line-height:1.6;max-width:900px}
+  .cover .team strong{color:#fff}
+  .cover .phones{position:absolute;right:120px;top:120px;display:flex;gap:36px;align-items:flex-start}
+  .cover .phones .phone:nth-child(2){margin-top:110px}
+  .water{position:absolute;inset:auto -10% -20% auto;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(108,197,223,.18),transparent 65%);pointer-events:none}
+
+  /* ---------- Before / after ---------- */
+  .ba{display:flex;gap:28px;align-items:flex-end}
+  .ba .label{font-size:18px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);text-align:center;margin-bottom:14px}
+  .ba .label.new{color:var(--aqua-600)}
+
+  /* ---------- Chrome ---------- */
+  .chrome{position:fixed;left:0;right:0;bottom:0;height:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;gap:16px;pointer-events:none;z-index:5}
+  .chrome > *{pointer-events:auto}
+  .counter{font:600 14px/1 Inter,system-ui,sans-serif;color:rgba(255,255,255,.75);letter-spacing:.06em;font-variant-numeric:tabular-nums}
+  .nav-btns{display:flex;gap:8px}
+  .nav-btns button{width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(4,25,61,.65);color:#fff;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(8px);transition:background .2s}
+  .nav-btns button:hover{background:rgba(7,147,182,.8)}
+  .nav-btns button:focus-visible{outline:2px solid var(--aqua-300);outline-offset:2px}
+  .nav-btns svg{width:20px;height:20px}
+  .progress{position:fixed;left:0;top:0;height:4px;background:var(--aqua-500);transition:width .45s ease;z-index:6}
+  .hint{font:500 13px/1.3 Inter,system-ui,sans-serif;color:rgba(255,255,255,.55)}
+  @media (max-width:700px){.hint{display:none}}
+
+  /* slide footer */
+  .foot{position:absolute;left:120px;right:120px;bottom:44px;display:flex;justify-content:space-between;align-items:center;font-size:18px;color:var(--gray-500)}
+  .foot .brandmark{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--brand)}
+  .foot .brandmark img{height:36px;width:36px;padding:5px;border-radius:10px;background:var(--brand)}
+  .dark .foot,.cover .foot{color:rgba(255,255,255,.6)}
+  .dark .foot .brandmark,.cover .foot .brandmark{color:#fff}
+  .dark .foot .brandmark img,.cover .foot .brandmark img{background:rgba(255,255,255,.12)}
+
+  @media print{
+    html,body{overflow:visible;background:#fff}
+    .viewport{position:static;display:block}
+    .stage{transform:none!important;position:static;width:1920px;height:auto}
+    .slide{position:relative;opacity:1;visibility:visible;transform:none;page-break-after:always;height:1080px}
+    .chrome,.progress{display:none}
+    @page{size:1920px 1080px;margin:0}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+
+<div class="viewport">
+<main class="stage" id="stage">
+
+<!-- ============ 0 · PORTADA ============ -->
+<section class="slide cover active" data-title="Portada">
+  <div class="water"></div>
+  <img class="logo" src="assets/logo-white.png" alt="Logo de GotApp: una gota con la cordillera">
+  <div class="eyebrow mt-m" style="color:var(--aqua-300)">Cuidemos el agua · Mendoza</div>
+  <h1 style="color:#fff">GotApp</h1>
+  <p class="tagline">Reportá una pérdida de agua en la vía pública en menos de un minuto, y seguí tu reclamo hasta que se resuelva.</p>
+  <div class="tags mt-m">
+    <span class="tag">App móvil ciudadana</span><span class="tag">Participación</span><span class="tag">Transparencia</span>
+  </div>
+  <p class="team">Equipo Azul · <strong>Francesca Zorrilla, Ismael Díaz, Emiliano García Fuenzalida, Daniel Llalen, Paula Pamela Marinero</strong></p>
+  <div class="phones">
+    <div class="phone lg"><img src="assets/v2-inicio.png" alt="Pantalla de inicio de GotApp"></div>
+    <div class="phone lg"><img src="assets/v2-seguimiento.png" alt="Pantalla de seguimiento de un reclamo"></div>
+  </div>
+</section>
+
+<!-- ============ 1 · PROYECTO Y PROPÓSITO ============ -->
+<section class="slide" data-title="Proyecto y propósito">
+  <div class="eyebrow"><span class="num">01</span>Presentación del proyecto y propósito</div>
+  <div class="row grow" style="gap:80px">
+    <div style="flex:1">
+      <h2>Una herramienta simple para que cualquier vecino pueda actuar cuando ve agua perdiéndose</h2>
+      <p class="lead">GotApp es una aplicación móvil para que cualquier ciudadano de Mendoza reporte pérdidas de agua en la vía pública, con foto y ubicación, y reciba seguimiento real del reclamo.</p>
+      <div class="cols-3 mt-l">
+        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></div><h3>Propósito</h3><p>Pasar de mirar a actuar: cuidar un recurso escaso con una acción concreta y rápida.</p></div>
+        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></div><h3>Origen</h3><p>Proyecto final de un bootcamp de UX/UI, diseñado a partir de investigación con usuarios reales.</p></div>
+        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div><h3>Hoy</h3><p>En incubación junto al gobierno provincial, para integrarse a una plataforma de servicios hídricos.</p></div>
+      </div>
+    </div>
+    <div class="quote" style="width:520px;align-self:center">
+      <p>“Basta de mirar para otro lado. Reportá roturas al instante. El cambio empieza con vos.”</p>
+      <cite>Mensaje central de GotApp</cite>
+    </div>
+  </div>
+  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Proyecto y propósito</span></div>
+</section>
+
+<!-- ============ 2 · PROBLEMÁTICA ============ -->
+<section class="slide" data-title="Problemática">
+  <div class="eyebrow"><span class="num">02</span>Problemática detectada</div>
+  <h2>Todos ven las pérdidas. Casi nadie sabe cómo reportarlas.</h2>
+  <p class="lead">No existía una herramienta accesible para que un ciudadano común reportara una pérdida en la calle de forma rápida y con seguimiento. Los canales existentes eran burocráticos, poco intuitivos y no estaban pensados desde la urgencia del usuario.</p>
+  <div class="cols-4 mt-m">
+    <div class="stat"><div class="value">100<small>%</small></div><div class="label">de las personas encuestadas vio una pérdida de agua en la vía pública</div></div>
+    <div class="stat accent"><div class="value">29<small>%</small></div><div class="label">supo qué hacer ante una pérdida: la mayoría no sabe dónde ni cómo reclamar</div></div>
+    <div class="stat"><div class="value">~3<small>/4</small></div><div class="label">tuvo alguna vez afectado el suministro en su domicilio</div></div>
+    <div class="stat"><div class="value">3.394</div><div class="label">denuncias por pérdidas de agua en calles recibió Aysam en febrero de 2022</div></div>
+  </div>
+  <div class="row mt-s" style="gap:28px">
+    <div class="quote" style="flex:1"><p>“No puede hacer reclamos porque nunca puede comunicarse con la empresa.”</p><cite>Frustración de la user persona, validada en entrevistas</cite></div>
+    <div class="quote" style="flex:1"><p>“Esto pasa seguido y nadie lo arregla. ¿Será la municipalidad o Aysam?”</p><cite>Pensamientos relevados en el User Journey</cite></div>
+  </div>
+  <p class="source">Fuente: encuesta cuantitativa del equipo (mayores de 18, Gran Mendoza) y noticias relevadas durante la investigación.</p>
+  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Problemática</span></div>
+</section>
+
+<!-- ============ 3 · JUSTIFICACIÓN ============ -->
+<section class="slide dark" data-title="Justificación">
+  <div class="eyebrow"><span class="num">03</span>Justificación · El agua en Mendoza</div>
+  <div class="row grow" style="gap:80px;align-items:center">
+    <div style="flex:1.1">
+      <h2>En una provincia semiárida, cada gota cuenta</h2>
+      <p class="lead">Mendoza depende del deshielo de la Cordillera de los Andes y de una red de canales y acequias que sostienen la vida urbana y productiva. Con recursos hídricos limitados, una pérdida que nadie reporta se convierte en agua que no vuelve.</p>
+      <div class="cols-2 mt-l" style="gap:28px">
+        <div class="card brand" style="background:rgba(255,255,255,.08)"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg></div><h3>Agua que nace en la cordillera</h3><p>El símbolo de GotApp une la gota y las montañas: el origen del agua que abastece la provincia.</p></div>
+        <div class="card brand" style="background:rgba(255,255,255,.08)"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Cuidado colectivo</h3><p>Detectar y reparar rápido reduce el derroche y protege el suministro de todos.</p></div>
+      </div>
+    </div>
+    <div style="width:620px;display:flex;flex-direction:column;gap:28px">
+      <div class="stat accent" style="background:var(--aqua-500)"><div class="value">~50<small>%</small></div><div class="label" style="color:#fff">del agua se pierde, según una estimación de Aguas Mendocinas citada en la investigación.</div></div>
+      <div class="quote"><p>“Sabe lo importante que es cada gota en una provincia donde el agua es vida, donde las acequias no solo decoran la ciudad, sino que la sostienen.”</p><cite>Storytelling de Ana, la user persona</cite></div>
+    </div>
+  </div>
+  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Justificación</span></div>
+</section>
+
+<!-- ============ 4 · SOLUCIÓN ============ -->
+<section class="slide" data-title="Solución">
+  <div class="eyebrow"><span class="num">04</span>Solución propuesta</div>
+  <div class="row grow" style="gap:70px;align-items:center">
+    <div style="flex:1">
+      <h2>GotApp: reportar fácil, recibir respuesta</h2>
+      <p class="lead">Con una foto, un punto en el mapa y una breve descripción, el reclamo llega al organismo correspondiente. Sin número de factura ni trámites.</p>
+      <div class="cols-3 mt-l" style="gap:22px">
+        <div class="card tint"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div><h3>Reportar</h3><p>Flujo guiado en 3 pasos: foto, ubicación por GPS y detalles.</p></div>
+        <div class="card tint"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></div><h3>Seguir</h3><p>Número de reclamo, estados claros y notificaciones en cada cambio.</p></div>
+        <div class="card tint"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg></div><h3>Informarse</h3><p>Cortes programados, mapa de surtidores y consejos de cuidado.</p></div>
+      </div>
+    </div>
+    <div class="row" style="gap:28px">
+      <div><div class="phone"><img src="assets/v2-inicio.png" alt="Inicio de GotApp con el botón Reportar una pérdida"></div><p class="caption">Inicio<span>La acción principal, a un toque</span></p></div>
+      <div><div class="phone"><img src="assets/v2-enviado.png" alt="Confirmación de reporte enviado con número de reclamo"></div><p class="caption">Confirmación<span>Número y estado del reclamo</span></p></div>
+    </div>
+  </div>
+  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Solución</span></div>
+</section>
+
+<!-- ============ 5 · FUNCIONAMIENTO Y RECORRIDO ============ -->
+<section class="slide" data-title="Recorrido del usuario">
+  <div class="eyebrow"><span class="num">05</span>Funcionamiento y recorrido del usuario</div>
+  <h2>De ver la pérdida a saber que se resolvió</h2>
+  <div class="journey mt-m grow">
+    <div><div class="step-n" style="display:grid">1</div><div class="phone sm"><img src="assets/v2-paso1-foto.png" alt="Paso 1: foto de la pérdida"></div><p class="caption">Sacá una foto<span>Sin número de factura</span></p></div>
+    <div><div class="step-n" style="display:grid">2</div><div class="phone sm"><img src="assets/v2-paso2-ubicacion.png" alt="Paso 2: ubicación en el mapa"></div><p class="caption">Marcá la ubicación<span>GPS + ajuste en el mapa</span></p></div>
+    <div><div class="step-n" style="display:grid">3</div><div class="phone sm"><img src="assets/v2-paso3-detalles.png" alt="Paso 3: tipo de pérdida y descripción"></div><p class="caption">Contá qué pasa<span>Tipo y descripción breve</span></p></div>
+    <div><div class="step-n" style="display:grid">4</div><div class="phone sm"><img src="assets/v2-enviado.png" alt="Reporte enviado"></div><p class="caption">Recibí tu número<span>Confirmación inmediata</span></p></div>
+    <div><div class="step-n" style="display:grid">5</div><div class="phone sm"><img src="assets/v2-seguimiento.png" alt="Seguimiento del reclamo"></div><p class="caption">Seguí el estado<span>Recibido → En proceso → Resuelto</span></p></div>
+  </div>
+  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Recorrido del usuario · Ana, vecina de Godoy Cruz</span></div>
+</section>
+
+<!-- ============ 6 · PÚBLICO Y ACTORES ============ -->
+<section class="slide compact" data-title="Público y actores">
+  <div class="eyebrow"><span class="num">06</span>Público objetivo y actores involucrados</div>
+  <div class="cols-2 grow" style="gap:56px">
+    <div>
+      <h2 style="font-size:48px">Pensada para todos, desde quien usa solo WhatsApp</h2>
+      <p class="lead" style="font-size:24px;margin-top:18px">Residentes de Mendoza mayores de 18 años, en zonas urbanas y suburbanas: usuarios domésticos y pequeños comerciantes que dependen del suministro, con conocimientos básicos de tecnología.</p>
+      <div class="card mt-s" style="display:flex;gap:28px;align-items:flex-start;padding:28px">
+        <div style="width:96px;height:96px;border-radius:50%;background:var(--aqua-50);display:grid;place-items:center;flex:none;color:var(--aqua-600)"><svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
+        <div>
+          <h3>Ana Soler · User persona validada</h3>
+          <p>Profesora de Artes Digitales, vecina de Godoy Cruz. Responsable, empática y comprometida con el ambiente. <strong>Necesita un canal rápido y confiable</strong> para reportar y saber que su reclamo fue atendido.</p>
+        </div>
+      </div>
+      <div class="cols-2 mt-s" style="gap:24px">
+        <div class="stat"><div class="value" style="font-size:64px">59,3<small>%</small></div><div class="label">de las personas encuestadas tiene entre 35 y 65 años</div></div>
+        <div class="stat"><div class="value" style="font-size:64px">6</div><div class="label">departamentos relevados: Capital, Godoy Cruz, Guaymallén, Las Heras, Luján y Maipú</div></div>
+      </div>
+    </div>
+    <div>
+      <h3 style="font-size:28px;margin-bottom:22px">Actores involucrados</h3>
+      <div style="display:flex;flex-direction:column;gap:14px">
+        <div class="card" style="padding:22px 28px"><h3 style="font-size:24px;margin-bottom:6px">Ciudadanos y comerciantes</h3><p style="font-size:21px">Detectan y reportan las pérdidas; suman surtidores al mapa comunitario.</p></div>
+        <div class="card" style="padding:22px 28px"><h3 style="font-size:24px;margin-bottom:6px">Aysam · empresa prestadora</h3><p style="font-size:21px">Recibe los reclamos georreferenciados y asigna cuadrillas.</p></div>
+        <div class="card" style="padding:22px 28px"><h3 style="font-size:24px;margin-bottom:6px">Cuadrillas de reparación</h3><p style="font-size:21px">Actualizan el estado del reclamo hasta resolverlo.</p></div>
+        <div class="card" style="padding:22px 28px"><h3 style="font-size:24px;margin-bottom:6px">Municipios</h3><p style="font-size:21px">Coordinan la reparación de veredas y la información de cortes por zona.</p></div>
+        <div class="card tint" style="padding:22px 28px"><h3 style="font-size:24px;margin-bottom:6px">Gobierno de Mendoza · incubadora</h3><p style="font-size:21px">Impulsa la integración de GotApp en la plataforma provincial de servicios hídricos.</p></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Público y actores</span></div>
+</section>
+
+<!-- ============ 7 · PROPUESTA DE VALOR ============ -->
+<section class="slide compact" data-title="Propuesta de valor">
+  <div class="eyebrow"><span class="num">07</span>Propuesta de valor y diferenciación</div>
+  <h2>Las apps existentes están hechas para facturar. GotApp, para reportar.</h2>
+  <p class="lead" style="font-size:26px">El benchmark de apps de servicios de agua en Argentina mostró una desconexión entre lo que el usuario necesita y lo que ofrecen: estética simple, pero foco comercial en facturación y trámites.</p>
+  <table class="mt-m">
+    <thead><tr><th style="width:26%"></th><th>AySA</th><th>Aguas Cordobesas</th><th>Aguas Rionegrinas</th><th class="gotapp">GotApp</th></tr></thead>
+    <tbody>
+      <tr><td>Calificación / descargas</td><td>3,7 ★ · 500 mil</td><td>2,5 ★ · 100 mil</td><td>1,7 ★ · 10 mil</td><td class="gotapp">Diseñada y validada con usuarios</td></tr>
+      <tr><td>Foco principal</td><td>Facturas y servicios</td><td>Trámites</td><td>Oficina virtual</td><td class="gotapp">Reporte ciudadano de pérdidas</td></tr>
+      <tr><td>Reclamar sin número de factura</td><td class="no">No</td><td class="mid">Parcial</td><td class="no">No</td><td class="gotapp"><span class="yes">Sí</span> · foto + ubicación</td></tr>
+      <tr><td>Seguimiento del reclamo</td><td class="no">Difícil</td><td class="no">“No solucionan reclamos”</td><td class="no">No</td><td class="gotapp"><span class="yes">Sí</span> · estados y notificaciones</td></tr>
+      <tr><td>Transparencia de tiempos</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="gotapp"><span class="yes">Sí</span> · tiempo promedio público</td></tr>
+      <tr><td>Enfoque comunitario</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="gotapp"><span class="yes">Sí</span> · mapa de surtidores</td></tr>
+    </tbody>
+  </table>
+  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Propuesta de valor</span></div>
+</section>
+
+<!-- ============ 8 · ESTADO Y MVP ============ -->
+<section class="slide" data-title="Estado actual y MVP">
+  <div class="eyebrow"><span class="num">08</span>Estado actual del proyecto y validación del MVP</div>
+  <div class="row grow" style="gap:64px">
+    <div style="flex:1;display:flex;flex-direction:column">
+      <h2 style="font-size:56px">De ejercicio académico a solución con impacto real</h2>
+      <div class="timeline mt-m">
+        <div class="tl done"><div class="dot"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><div><h3>Investigación y MVP</h3><p>Research, prototipo de alta fidelidad y test de usabilidad: completaron el flujo sin instrucciones previas.</p></div></div>
+        <div class="tl done"><div class="dot"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><div><h3>Presentación ante el gobierno</h3><p>GotApp fue presentada ante organismos del gobierno de Mendoza.</p></div></div>
+        <div class="tl now"><div class="dot"></div><div><h3>Incubación <span class="status s-warn" style="margin-left:10px;vertical-align:middle">En curso</span></h3><p>Desarrollo como módulo de una plataforma gubernamental de servicios hídricos. Rediseño 2.0 con design system propio.</p></div></div>
+        <div class="tl"><div class="dot"></div><div><h3>Próximo: piloto</h3><p>Prueba en un departamento y medición de tiempos de resolución.</p></div></div>
+      </div>
+    </div>
+    <div style="width:760px;display:flex;flex-direction:column;gap:22px">
+      <div class="card" style="padding:30px">
+        <h3 style="font-size:24px">Funciones imprescindibles del MVP</h3>
+        <div class="tags mt-s"><span class="tag">Registro de usuario</span><span class="tag">Denuncia con foto</span><span class="tag">Geolocalización</span><span class="tag">Seguimiento de estado</span><span class="tag">Notificaciones</span></div>
+        <h3 style="font-size:24px;margin-top:26px">Funciones deseables, ya prototipadas</h3>
+        <div class="tags mt-s"><span class="tag">Mapa de surtidores</span><span class="tag">Cortes programados</span><span class="tag">Consejos de uso del agua</span></div>
+      </div>
+      <div class="ba" style="justify-content:center">
+        <div><p class="label">v1 · 2025</p><div class="phone xs v1"><img src="assets/v1-inicio.png" alt="Inicio del diseño original"></div></div>
+        <div style="align-self:center;color:var(--aqua-500)"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
+        <div><p class="label new">v2 · rediseño</p><div class="phone xs"><img src="assets/v2-inicio.png" alt="Inicio del rediseño 2.0"></div></div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Estado actual</span></div>
+</section>
+
+<!-- ============ 9 · RESULTADOS ============ -->
+<section class="slide compact" data-title="Resultados de la investigación">
+  <div class="eyebrow"><span class="num">09</span>Resultados de las investigaciones y pruebas</div>
+  <h2>La necesidad existe y la disposición también</h2>
+  <div class="cols-4 mt-m">
+    <div class="stat accent"><div class="value">96,9<small>%</small></div><div class="label">usaría una app para reportar pérdidas de agua</div></div>
+    <div class="stat"><div class="value">29<small>%</small></div><div class="label">sabía qué hacer: la brecha está en la acción, no en el interés</div></div>
+    <div class="stat"><div class="value">6</div><div class="label">entrevistas cualitativas para validar la persona y priorizar funciones</div></div>
+    <div class="stat"><div class="value">3</div><div class="label">apps del sector analizadas en el benchmark competitivo</div></div>
+  </div>
+  <div class="cols-3 mt-m" style="gap:24px">
+    <div class="card"><h3>Encuesta cuantitativa</h3><p>Mayores de 18 años de seis departamentos del Gran Mendoza. Confirmó que el problema es <strong>visible, recurrente y urgente</strong>.</p></div>
+    <div class="card"><h3>Entrevistas y research en campo</h3><p>Conversaciones en un surtidor público. Pedidos repetidos: <strong>notificaciones, mapa, historial y confirmación de envío</strong>.</p></div>
+    <div class="card tint"><h3>Test de usabilidad</h3><p>Usuarios reales completaron el flujo de reporte <strong>sin instrucciones previas</strong>. Se simplificó el flujo quitando pasos innecesarios.</p></div>
+  </div>
+  <div class="quote mt-s"><p>“La confianza se gana mostrando que el reclamo se recibió. No alcanza con enviar: la app tiene que confirmar, mostrar el estado y dar seguimiento.”</p><cite>Key takeaway de la investigación</cite></div>
+  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Resultados</span></div>
+</section>
+
+<!-- ============ 10 · IMPACTO ============ -->
+<section class="slide dark" data-title="Impacto esperado">
+  <div class="eyebrow"><span class="num">10</span>Impacto ambiental y social esperado</div>
+  <h2>Menos agua perdida, más ciudadanía activa</h2>
+  <div class="cols-2 mt-l" style="gap:40px">
+    <div class="card brand" style="background:rgba(255,255,255,.07);padding:40px">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></div>
+      <h3 style="font-size:34px">Impacto ambiental</h3>
+      <ul style="margin-top:18px;padding-left:28px;display:flex;flex-direction:column;gap:12px">
+        <li style="color:rgba(255,255,255,.88)"><strong>Menos tiempo</strong> entre que se detecta una pérdida y se repara, y por lo tanto menos agua desperdiciada.</li>
+        <li style="color:rgba(255,255,255,.88)"><strong>Datos georreferenciados</strong> para priorizar el mantenimiento de la red.</li>
+        <li style="color:rgba(255,255,255,.88)"><strong>Conciencia hídrica</strong> con consejos y alertas de cortes para planificar el uso.</li>
+      </ul>
+    </div>
+    <div class="card brand" style="background:rgba(255,255,255,.07);padding:40px">
+      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+      <h3 style="font-size:34px">Impacto social</h3>
+      <ul style="margin-top:18px;padding-left:28px;display:flex;flex-direction:column;gap:12px">
+        <li style="color:rgba(255,255,255,.88)"><strong>Participación ciudadana</strong>: cualquier vecino puede ser parte de la solución.</li>
+        <li style="color:rgba(255,255,255,.88)"><strong>Transparencia y confianza</strong>: estados y tiempos de resolución visibles.</li>
+        <li style="color:rgba(255,255,255,.88)"><strong>Inclusión</strong>: diseño accesible para personas mayores o que no son nativas digitales.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tags mt-m">
+    <span class="tag">Indicadores a medir: tiempo promedio de resolución</span><span class="tag">% de reclamos resueltos</span><span class="tag">Reportes por zona</span><span class="tag">Adopción y recurrencia</span>
+  </div>
+  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Impacto esperado</span></div>
+</section>
+
+<!-- ============ CIERRE ============ -->
+<section class="slide cover" data-title="Gracias">
+  <div class="water"></div>
+  <img class="logo" src="assets/logo-white.png" alt="Logo de GotApp">
+  <h1 class="mt-m" style="color:#fff">Gracias</h1>
+  <p class="tagline">Cuidar el agua de Mendoza empieza con un reporte. GotApp lo hace simple.</p>
+  <p class="team">Equipo Azul · <strong>Francesca Zorrilla, Ismael Díaz, Emiliano García Fuenzalida, Daniel Llalen, Paula Pamela Marinero</strong></p>
+  <div class="phones">
+    <div class="phone lg"><img src="assets/v2-mapa.png" alt="Mapa de surtidores"></div>
+    <div class="phone lg"><img src="assets/v2-cortes.png" alt="Cortes programados"></div>
+  </div>
+</section>
+
+</main>
+</div>
+
+<div class="chrome">
+  <span class="counter" id="counter">1 / 12</span>
+  <span class="hint">← → o barra espaciadora para avanzar · F pantalla completa</span>
+  <div class="nav-btns">
+    <button id="prevBtn" aria-label="Diapositiva anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+    <button id="nextBtn" aria-label="Diapositiva siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+  </div>
+</div>
+
+<script>
+(function(){
+  const stage = document.getElementById('stage');
+  const slides = [...document.querySelectorAll('.slide')];
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  let i = 0;
+
+  function fit(){
+    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+    stage.style.transform = 'translate(-50%,-50%) scale(' + s + ')';
+  }
+  function show(n){
+    i = Math.max(0, Math.min(slides.length - 1, n));
+    slides.forEach((el, k) => {
+      el.classList.toggle('active', k === i);
+      el.classList.toggle('prev', k < i);
+    });
+    counter.textContent = (i + 1) + ' / ' + slides.length;
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {}
+  }
+  document.getElementById('prevBtn').onclick = () => show(i - 1);
+  document.getElementById('nextBtn').onclick = () => show(i + 1);
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight','PageDown',' ','Enter'].includes(e.key)) { e.preventDefault(); show(i + 1); }
+    else if (['ArrowLeft','PageUp','Backspace'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'Home') show(0);
+    else if (e.key === 'End') show(slides.length - 1);
+    else if (e.key.toLowerCase() === 'f') { if (!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); }
+  });
+  let x0 = null;
+  document.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
+  document.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
+  window.addEventListener('resize', fit);
+  fit();
+  const start = parseInt(location.hash.slice(1), 10);
+  show(Number.isFinite(start) ? start - 1 : 0);
+})();
+</script>
+</body>
+</html>
