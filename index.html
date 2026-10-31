@@ -71,10 +71,10 @@ body.menu-open .burger i:last-child{transform:rotate(-45deg)}
 @media (max-width:420px){.menu-btn .lbl{display:none}.menu-btn{padding:0 7px}}
 
 /* ================= SIDE RAIL ================= */
-.rail{position:fixed;right:clamp(14px,1.6vw,28px);top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:6px;color:var(--brand);transition:color .4s}
+.rail{position:fixed;right:clamp(14px,1.6vw,28px);top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:2px;color:var(--brand);transition:color .4s}
 .rail.on-dark{color:#fff}
-.rail a{position:relative;display:flex;align-items:center;justify-content:flex-end;width:28px;height:22px;text-decoration:none}
-.rail a::after{content:"";width:6px;height:6px;border-radius:999px;background:currentColor;opacity:.3;transition:all .4s var(--ease)}
+.rail a{position:relative;display:flex;align-items:center;justify-content:flex-end;width:32px;height:26px;text-decoration:none}
+.rail a::after{content:"";width:7px;height:7px;border-radius:999px;background:currentColor;opacity:.5;transition:all .4s var(--ease)}
 .rail a.active::after{width:22px;opacity:1;background:var(--aqua-500)}
 .rail a span{position:absolute;right:36px;white-space:nowrap;font-size:13px;font-weight:600;padding:6px 10px;border-radius:8px;background:var(--navy-900);color:#fff;opacity:0;transform:translateX(6px);pointer-events:none;transition:all .3s var(--ease)}
 .rail a:hover span,.rail a:focus-visible span{opacity:1;transform:none}
