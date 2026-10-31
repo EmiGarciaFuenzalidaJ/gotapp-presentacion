@@ -2,7 +2,9 @@
 
 Presentación del proyecto **GotApp**: una app móvil para que cualquier ciudadano de Mendoza reporte pérdidas de agua en la vía pública en menos de un minuto y siga su reclamo hasta que se resuelva.
 
-Equipo Azul · Francesca Zorrilla, Ismael Díaz, Emiliano García Fuenzalida, Daniel Llalen, Paula Pamela Marinero.
+Equipo · Paula Pamela Marinero y Emiliano García Fuenzalida.
+
+Sitio publicado: https://emigarciafuenzalidaj.github.io/gotapp-presentacion/
 
 ## Contenido
 
@@ -19,4 +21,4 @@ Equipo Azul · Francesca Zorrilla, Ismael Díaz, Emiliano García Fuenzalida, Da
 
 ## Cómo verla
 
-Abrí `index.html` en el navegador. Navegá con ← → o la barra espaciadora; **F** activa pantalla completa. También se puede imprimir a PDF (un slide por página).
+Sitio responsive (celular, tablet y escritorio). Se recorre con scroll o con el teclado: ↑ ↓ / ← → / barra espaciadora pasan de sección, **M** abre el índice a pantalla completa y **Esc** lo cierra. También se puede imprimir a PDF (una sección por página).

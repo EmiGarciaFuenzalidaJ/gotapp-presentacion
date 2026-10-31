@@ -2,485 +2,671 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GotApp · Presentación</title>
-<meta name="description" content="GotApp: app para reportar pérdidas de agua en la vía pública en Mendoza. Presentación del proyecto.">
-<link rel="icon" href="assets/logo.png">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GotApp · Cuidemos el agua</title>
+<meta name="description" content="GotApp: app móvil para reportar pérdidas de agua en la vía pública de Mendoza y seguir el reclamo hasta que se resuelva.">
+<meta name="theme-color" content="#072A5E">
+<meta property="og:title" content="GotApp · Cuidemos el agua">
+<meta property="og:description" content="Reportá una pérdida de agua en menos de un minuto y seguí tu reclamo hasta que se resuelva.">
+<meta property="og:image" content="assets/v2-inicio.png">
+<link rel="icon" href="assets/logo-white.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --navy-950:#031330; --navy-900:#04193D; --navy-800:#072A5E; --navy-700:#0B3F86;
-    --aqua-50:#EAF7FB; --aqua-100:#D0EEF6; --aqua-300:#6CC5DF; --aqua-500:#0793B6; --aqua-600:#067A98; --aqua-700:#055F77;
-    --gray-0:#FFFFFF; --gray-25:#F6F8FB; --gray-50:#EEF2F6; --gray-100:#E2E8EF; --gray-200:#C9D2DD; --gray-500:#5C6A7C; --gray-600:#455263; --gray-900:#0E1726;
-    --green-50:#E6F6EC; --green-600:#1A7F45; --amber-50:#FFF4DE; --amber-600:#9A5B00; --red-50:#FDECEC; --red-600:#C2281F;
-    --bg:var(--gray-25); --surface:var(--gray-0); --text:var(--gray-900); --muted:var(--gray-600); --brand:var(--navy-800); --accent:var(--aqua-500); --line:var(--gray-100);
-    --radius:24px;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html,body{height:100%;background:var(--navy-950);overflow:hidden}
-  body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);-webkit-font-smoothing:antialiased}
-  img{display:block;max-width:100%}
+:root{
+  --navy-950:#031330;--navy-900:#04193D;--navy-800:#072A5E;--navy-700:#0B3F86;
+  --aqua-50:#EAF7FB;--aqua-100:#D0EEF6;--aqua-300:#6CC5DF;--aqua-500:#0793B6;--aqua-600:#067A98;--aqua-700:#055F77;
+  --gray-0:#FFFFFF;--gray-25:#F6F8FB;--gray-50:#EEF2F6;--gray-100:#E2E8EF;--gray-200:#C9D2DD;--gray-500:#5C6A7C;--gray-600:#455263;--gray-900:#0E1726;
+  --green-50:#E6F6EC;--green-600:#1A7F45;--amber-50:#FFF4DE;--amber-600:#9A5B00;--red-600:#C2281F;
+  --bg:var(--gray-25);--surface:#fff;--text:var(--gray-900);--muted:var(--gray-600);--brand:var(--navy-800);--accent:var(--aqua-500);--line:var(--gray-100);
+  --pad:clamp(20px,5.2vw,104px);
+  --header-h:clamp(60px,6vw,76px);
+  --radius:clamp(16px,1.6vw,24px);
+  --ease:cubic-bezier(.22,1,.36,1);
+  --serif:"Instrument Serif",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (min-width:1024px) and (min-height:700px){html{scroll-snap-type:y proximity}}
+body{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);background:var(--bg);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+body.menu-open{overflow:hidden}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--aqua-300);outline-offset:3px;border-radius:6px}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:fixed;left:16px;top:-60px;z-index:100;background:#fff;color:var(--brand);padding:10px 16px;border-radius:10px;font-weight:600;transition:top .2s}
+.skip:focus{top:12px}
 
-  /* ---------- Stage ---------- */
-  .viewport{position:fixed;inset:0;overflow:hidden}
-  .stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:center center;transform:translate(-50%,-50%)}
-  .slide{position:absolute;inset:0;background:var(--bg);padding:96px 120px 110px;display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateX(40px);transition:opacity .45s ease,transform .45s ease,visibility .45s;overflow:hidden;border-radius:4px}
-  .slide.active{opacity:1;visibility:visible;transform:none}
-  .slide.prev{transform:translateX(-40px)}
-  .slide.dark{background:var(--navy-800);color:#fff}
+/* ================= HEADER ================= */
+.topbar{position:fixed;inset:0 0 auto 0;height:var(--header-h);z-index:50;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:0 var(--pad);color:var(--brand);transition:color .4s var(--ease),background .4s var(--ease)}
+.topbar::before{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--gray-25) 72%,transparent);backdrop-filter:blur(14px) saturate(140%);-webkit-backdrop-filter:blur(14px) saturate(140%);border-bottom:1px solid color-mix(in srgb,var(--brand) 8%,transparent);transition:background .4s var(--ease),border-color .4s;z-index:-1}
+.topbar.on-dark{color:#fff}
+.topbar.on-dark::before{background:color-mix(in srgb,var(--navy-900) 55%,transparent);border-color:rgba(255,255,255,.08)}
+body.menu-open .topbar{color:#fff}
+body.menu-open .topbar::before{background:transparent;border-color:transparent;backdrop-filter:none}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:800;letter-spacing:-.02em;font-size:20px}
+.brand .mark{width:38px;height:38px;border-radius:11px;background:var(--brand);display:grid;place-items:center;transition:background .4s}
+.brand .mark img{width:24px;height:24px}
+.topbar.on-dark .brand .mark,body.menu-open .brand .mark{background:rgba(255,255,255,.14)}
+.now{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;font-size:14px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;overflow:hidden;height:22px;white-space:nowrap}
+.now .n{font-variant-numeric:tabular-nums;opacity:.6}
+.now .t{display:inline-block;transition:transform .5s var(--ease),opacity .5s}
+.now .t.swap{transform:translateY(100%);opacity:0}
+body.menu-open .now{opacity:0}
+.actions{display:flex;align-items:center;gap:14px}
+.count{font-size:14px;font-weight:600;font-variant-numeric:tabular-nums;opacity:.7}
+.menu-btn{display:inline-flex;align-items:center;gap:12px;height:44px;padding:0 8px 0 18px;border-radius:999px;border:1px solid currentColor;background:transparent;color:inherit;font:600 14px/1 Inter,system-ui,sans-serif;letter-spacing:.06em;text-transform:uppercase;cursor:pointer;transition:background .3s,color .3s}
+.menu-btn:hover{background:var(--brand);color:#fff;border-color:var(--brand)}
+.topbar.on-dark .menu-btn:hover,body.menu-open .menu-btn:hover{background:#fff;color:var(--brand);border-color:#fff}
+.burger{position:relative;width:30px;height:30px;border-radius:50%;background:currentColor;display:grid;place-items:center}
+.burger i{position:absolute;width:12px;height:2px;border-radius:2px;background:var(--gray-25);transition:transform .45s var(--ease)}
+.topbar.on-dark .burger i,body.menu-open .burger i{background:var(--navy-800)}
+.menu-btn:hover .burger{background:currentColor}
+.burger i:first-child{transform:translateY(-3px)}.burger i:last-child{transform:translateY(3px)}
+body.menu-open .burger i:first-child{transform:rotate(45deg)}
+body.menu-open .burger i:last-child{transform:rotate(-45deg)}
+.progress{position:fixed;left:0;top:0;height:3px;width:100%;transform-origin:0 50%;transform:scaleX(0);background:linear-gradient(90deg,var(--aqua-500),var(--aqua-300));z-index:60}
+@media (max-width:860px){.now{display:none}.count{display:none}}
+@media (max-width:420px){.menu-btn .lbl{display:none}.menu-btn{padding:0 7px}}
 
-  /* ---------- Type ---------- */
-  .eyebrow{display:inline-flex;align-items:center;gap:14px;font-size:20px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--aqua-600);margin-bottom:22px}
-  .eyebrow .num{display:inline-grid;place-items:center;min-width:52px;height:36px;padding:0 12px;border-radius:999px;background:var(--aqua-50);color:var(--brand);font-variant-numeric:tabular-nums;letter-spacing:0}
-  .dark .eyebrow{color:var(--aqua-300)} .dark .eyebrow .num{background:rgba(255,255,255,.12);color:#fff}
-  h1{font-size:112px;line-height:1;font-weight:800;letter-spacing:-.035em;color:var(--brand)}
-  h2{font-size:64px;line-height:1.08;font-weight:700;letter-spacing:-.025em;color:var(--brand);max-width:1400px;text-wrap:balance}
-  .dark h1,.dark h2{color:#fff}
-  h3{font-size:30px;line-height:1.2;font-weight:700;letter-spacing:-.01em;color:var(--brand)}
-  .lead{font-size:30px;line-height:1.5;color:var(--muted);max-width:1180px;margin-top:24px;text-wrap:pretty}
-  .dark .lead{color:rgba(255,255,255,.82)}
-  p,li{font-size:24px;line-height:1.5;color:var(--muted)}
-  strong{color:var(--text);font-weight:650}
-  .dark strong{color:#fff}
+/* ================= SIDE RAIL ================= */
+.rail{position:fixed;right:clamp(14px,1.6vw,28px);top:50%;transform:translateY(-50%);z-index:40;display:flex;flex-direction:column;gap:6px;color:var(--brand);transition:color .4s}
+.rail.on-dark{color:#fff}
+.rail a{position:relative;display:flex;align-items:center;justify-content:flex-end;width:28px;height:22px;text-decoration:none}
+.rail a::after{content:"";width:6px;height:6px;border-radius:999px;background:currentColor;opacity:.3;transition:all .4s var(--ease)}
+.rail a.active::after{width:22px;opacity:1;background:var(--aqua-500)}
+.rail a span{position:absolute;right:36px;white-space:nowrap;font-size:13px;font-weight:600;padding:6px 10px;border-radius:8px;background:var(--navy-900);color:#fff;opacity:0;transform:translateX(6px);pointer-events:none;transition:all .3s var(--ease)}
+.rail a:hover span,.rail a:focus-visible span{opacity:1;transform:none}
+@media (max-width:1099px){.rail{display:none}}
+body.menu-open .rail{opacity:0;pointer-events:none}
 
-  /* ---------- Layout helpers ---------- */
-  .grow{flex:1;min-height:0}
-  .row{display:flex;gap:40px}
-  .cols-2{display:grid;grid-template-columns:1fr 1fr;gap:48px}
-  .cols-3{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
-  .cols-4{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
-  .mt-s{margin-top:24px}.mt-m{margin-top:44px}.mt-l{margin-top:64px}
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:36px}
-  .card h3{margin-bottom:12px}
-  .card.tint{background:var(--aqua-50);border-color:transparent}
-  .card.brand{background:var(--brand);border-color:transparent}
-  .card.brand h3,.card.brand p,.card.brand strong{color:#fff}
-  .card.brand p{opacity:.85}
-  .icon{width:56px;height:56px;border-radius:16px;background:var(--aqua-50);display:grid;place-items:center;margin-bottom:22px;color:var(--aqua-600)}
-  .card.tint .icon{background:#fff}
-  .card.brand .icon{background:rgba(255,255,255,.12);color:#fff}
-  .icon svg{width:30px;height:30px}
+/* ================= FULLSCREEN MENU ================= */
+.menu{position:fixed;inset:0;z-index:45;background:var(--navy-900);color:#fff;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:clamp(24px,4vw,80px);padding:calc(var(--header-h) + clamp(20px,4vh,48px)) var(--pad) clamp(24px,5vh,56px);clip-path:inset(0 0 100% 0);visibility:hidden;transition:clip-path .8s var(--ease),visibility 0s .8s;overflow-y:auto}
+body.menu-open .menu{clip-path:inset(0 0 0 0);visibility:visible;transition:clip-path .8s var(--ease),visibility 0s}
+.menu::before{content:"";position:absolute;width:70vw;height:70vw;right:-20vw;bottom:-30vw;border-radius:50%;background:radial-gradient(circle,rgba(7,147,182,.28),transparent 65%);pointer-events:none}
+.menu ol{list-style:none;counter-reset:m;align-self:center}
+.menu li{overflow:hidden;border-bottom:1px solid rgba(255,255,255,.1)}
+.menu li a{display:flex;align-items:baseline;gap:clamp(14px,2vw,28px);padding:clamp(6px,1.1vh,12px) 0;text-decoration:none;font-size:clamp(24px,3.6vw,52px);font-weight:700;letter-spacing:-.03em;line-height:1.1;transform:translateY(110%);transition:transform .7s var(--ease),color .3s}
+body.menu-open .menu li a{transform:none;transition-delay:calc(.15s + var(--i) * .04s)}
+.menu li a .mi{font-size:clamp(12px,1vw,15px);font-weight:600;letter-spacing:.08em;color:var(--aqua-300);min-width:2.2em;font-variant-numeric:tabular-nums}
+.menu li a .ml{position:relative}
+.menu li a .ml{color:#fff}
+.menu li a .ml em{font-style:normal}
+.menu li a:hover .ml,.menu li a.current .ml{color:var(--aqua-300)}
+.menu li a:hover .ml em,.menu li a.current .ml em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
+.menu .preview{align-self:center;justify-self:center;position:relative;width:min(100%,340px);aspect-ratio:390/844;border-radius:44px;padding:10px;background:#000;box-shadow:0 40px 100px -20px rgba(0,0,0,.6);opacity:0;transform:translateY(40px) rotate(4deg);transition:opacity .6s var(--ease) .25s,transform .9s var(--ease) .2s}
+body.menu-open .menu .preview{opacity:1;transform:rotate(-3deg)}
+.menu .preview img{width:100%;height:100%;object-fit:cover;border-radius:35px;transition:opacity .35s}
+.menu .meta{position:absolute;left:var(--pad);bottom:clamp(16px,3vh,32px);font-size:13px;color:rgba(255,255,255,.55);letter-spacing:.04em}
+@media (max-width:860px){.menu{grid-template-columns:1fr}.menu .preview{display:none}.menu .meta{position:static;margin-top:24px}}
 
-  /* ---------- Stats ---------- */
-  .stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:36px 36px 32px}
-  .stat .value{font-size:88px;line-height:1;font-weight:800;letter-spacing:-.04em;color:var(--brand);font-variant-numeric:tabular-nums}
-  .stat .value small{font-size:44px;letter-spacing:-.02em}
-  .stat .label{margin-top:16px;font-size:23px;line-height:1.45;color:var(--muted)}
-  .stat.accent{background:var(--brand);border-color:transparent}
-  .stat.accent .value{color:#fff}.stat.accent .label{color:rgba(255,255,255,.85)}
-  .source{font-size:17px;color:var(--gray-500);margin-top:14px}
+/* ================= SECTIONS ================= */
+main{position:relative}
+.sec{position:relative;min-height:100vh;min-height:100svh;padding:calc(var(--header-h) + clamp(32px,6vh,80px)) var(--pad) clamp(56px,9vh,110px);display:flex;flex-direction:column;justify-content:center;scroll-snap-align:start;overflow:hidden}
+.sec.dark{background:var(--navy-800);color:#fff}
+.sec.deep{background:linear-gradient(160deg,var(--navy-800),var(--navy-950));color:#fff}
+.sec.tint{background:var(--aqua-50)}
+.wrap{width:100%;max-width:1560px;margin:0 auto;position:relative}
+.eyebrow{display:inline-flex;align-items:center;gap:14px;font-size:clamp(12px,.95vw,15px);font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--aqua-600);margin-bottom:clamp(16px,2.4vh,28px)}
+.eyebrow .num{font-variant-numeric:tabular-nums;color:var(--brand);padding:6px 12px;border-radius:999px;background:var(--aqua-100);letter-spacing:.02em}
+.dark .eyebrow,.deep .eyebrow{color:var(--aqua-300)}.dark .eyebrow .num,.deep .eyebrow .num{background:rgba(255,255,255,.12);color:#fff}
+h1{font-size:clamp(68px,14.5vw,236px);line-height:.86;font-weight:900;letter-spacing:-.055em}
+h2{font-size:clamp(34px,4.7vw,78px);line-height:1.02;font-weight:800;letter-spacing:-.04em;color:var(--brand);max-width:16ch;text-wrap:balance}
+h2.wide{max-width:22ch}
+.dark h2,.deep h2{color:#fff}
+h2 em,h1 em,.big em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.02em;color:var(--aqua-500)}
+.dark h2 em,.deep h2 em{color:var(--aqua-300)}
+h3{font-size:clamp(19px,1.5vw,25px);line-height:1.2;font-weight:700;letter-spacing:-.015em;color:var(--brand)}
+.dark h3,.deep h3{color:#fff}
+.lead{font-size:clamp(17px,1.5vw,24px);line-height:1.55;color:var(--muted);max-width:62ch;margin-top:clamp(16px,2.2vh,28px);text-wrap:pretty}
+.dark .lead,.deep .lead{color:rgba(255,255,255,.8)}
+p,li{font-size:clamp(15px,1.12vw,18px);line-height:1.6;color:var(--muted)}
+.dark p,.deep p,.dark li,.deep li{color:rgba(255,255,255,.8)}
+strong{color:var(--text);font-weight:650}
+.dark strong,.deep strong{color:#fff}
+.mt-s{margin-top:clamp(16px,2.2vh,24px)}.mt-m{margin-top:clamp(28px,4vh,48px)}.mt-l{margin-top:clamp(36px,6vh,72px)}
 
-  /* ---------- Quote ---------- */
-  .quote{border-left:6px solid var(--accent);padding:6px 0 6px 32px}
-  .quote p{font-size:34px;line-height:1.35;color:var(--text);font-weight:600;letter-spacing:-.01em}
-  .dark .quote p{color:#fff}
-  .quote cite{display:block;margin-top:12px;font-style:normal;font-size:20px;color:var(--gray-500)}
-  .dark .quote cite{color:rgba(255,255,255,.7)}
+/* grids */
+.split{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(32px,5vw,96px);align-items:center}
+.g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:clamp(14px,1.6vw,24px)}
+.g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:clamp(14px,1.6vw,24px)}
+.g4{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr));gap:clamp(12px,1.4vw,22px)}
+.split > *,.g2 > *,.g3 > *,.g4 > *{min-width:0}
+@media (max-width:960px){.split{grid-template-columns:minmax(0,1fr)}}
 
-  /* ---------- Phones ---------- */
-  .phone{width:300px;aspect-ratio:390/844;border-radius:46px;padding:10px;background:var(--gray-900);box-shadow:0 40px 80px -20px rgba(4,25,61,.35),0 0 0 1px rgba(255,255,255,.04) inset;flex:none}
-  .phone img{width:100%;height:100%;object-fit:cover;border-radius:37px;background:#fff}
-  .phone.sm{width:236px;border-radius:38px;padding:8px}.phone.sm img{border-radius:31px}
-  .phone.xs{width:176px;border-radius:30px;padding:7px}.phone.xs img{border-radius:24px}
-  .compact .stat{padding:28px 30px 26px}.compact .stat .value{font-size:72px}.compact .stat .value small{font-size:36px}
-  .compact th,.compact td{padding:15px 24px}
-  .phone.lg{width:360px}
-  .phone.v1 img{object-fit:cover}
-  .caption{margin-top:20px;text-align:center;font-size:21px;font-weight:600;color:var(--brand)}
-  .caption span{display:block;font-weight:400;font-size:18px;color:var(--muted);margin-top:4px}
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:clamp(20px,2vw,32px);transition:transform .5s var(--ease),box-shadow .5s var(--ease)}
+.card:hover{transform:translateY(-4px);box-shadow:0 24px 48px -24px rgba(4,25,61,.22)}
+.card h3{margin-bottom:8px}
+.card.soft{background:var(--aqua-50);border-color:transparent}
+.dark .card,.deep .card{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
+.ico{width:48px;height:48px;border-radius:14px;background:var(--aqua-50);color:var(--aqua-600);display:grid;place-items:center;margin-bottom:18px}
+.ico svg{width:26px;height:26px}
+.card.soft .ico{background:#fff}
+.dark .ico,.deep .ico{background:rgba(255,255,255,.12);color:#fff}
 
-  /* ---------- Chips / tags ---------- */
-  .tags{display:flex;flex-wrap:wrap;gap:12px}
-  .tag{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 20px;border-radius:999px;background:var(--surface);border:1px solid var(--gray-200);font-size:20px;font-weight:600;color:var(--brand)}
-  .dark .tag{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#fff}
-  .status{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 16px;border-radius:999px;font-size:18px;font-weight:600}
-  .s-info{background:var(--aqua-50);color:var(--aqua-700)} .s-warn{background:var(--amber-50);color:var(--amber-600)} .s-ok{background:var(--green-50);color:var(--green-600)}
+/* stats */
+.stat{border-top:2px solid var(--brand);padding-top:clamp(14px,1.6vw,22px)}
+.stat .v{font-size:clamp(46px,5.8vw,96px);line-height:.95;font-weight:800;letter-spacing:-.05em;color:var(--brand);font-variant-numeric:tabular-nums}
+.stat .v small{font-size:.5em;letter-spacing:-.02em}
+.stat .l{margin-top:12px;max-width:28ch}
+.stat.hl .v{color:var(--aqua-500)}
+.dark .stat,.deep .stat{border-color:rgba(255,255,255,.35)}.dark .stat .v,.deep .stat .v{color:#fff}.dark .stat.hl .v,.deep .stat.hl .v{color:var(--aqua-300)}
+.src{font-size:13px;color:var(--gray-500);margin-top:clamp(16px,2.4vh,28px)}
 
-  /* ---------- Journey ---------- */
-  .journey{display:grid;grid-template-columns:repeat(5,1fr);gap:28px;align-items:start}
-  .step-n{display:inline-grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--brand);color:#fff;font-weight:700;font-size:20px;margin:0 auto 18px}
-  .journey .phone{margin:0 auto}
+/* quote */
+.quote{border-left:4px solid var(--accent);padding:4px 0 4px clamp(18px,2vw,30px)}
+.quote p{font-family:var(--serif);font-size:clamp(22px,2.3vw,38px);line-height:1.25;color:var(--text)}
+.dark .quote p,.deep .quote p{color:#fff}
+.quote cite{display:block;margin-top:10px;font-style:normal;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-500)}
+.dark .quote cite,.deep .quote cite{color:rgba(255,255,255,.6)}
 
-  /* ---------- Table ---------- */
-  table{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
-  th,td{padding:22px 26px;text-align:left;font-size:22px;border-bottom:1px solid var(--line);vertical-align:middle}
-  th{font-size:18px;text-transform:uppercase;letter-spacing:.08em;color:var(--gray-500);font-weight:600;background:var(--gray-25)}
-  tr:last-child td{border-bottom:0}
-  td:first-child{font-weight:600;color:var(--text)}
-  td.gotapp,th.gotapp{background:var(--aqua-50);color:var(--brand);font-weight:700}
-  .yes{color:var(--green-600);font-weight:700}.no{color:var(--red-600);font-weight:700}.mid{color:var(--amber-600);font-weight:700}
+/* phones */
+.phone{width:var(--pw,clamp(200px,20vw,320px));aspect-ratio:390/844;border-radius:calc(var(--pw,clamp(200px,20vw,320px)) * .15);padding:calc(var(--pw,clamp(200px,20vw,320px)) * .032);background:var(--gray-900);box-shadow:0 40px 80px -24px rgba(4,25,61,.4);flex:none;transition:transform .7s var(--ease)}
+.phone img{width:100%;height:100%;object-fit:cover;border-radius:calc(var(--pw,clamp(200px,20vw,320px)) * .12);background:#fff}
+.phone:hover{transform:translateY(-8px) rotate(-1deg)}
+.cap{margin-top:16px;text-align:center;font-weight:700;color:var(--brand);font-size:clamp(14px,1.05vw,17px)}
+.cap span{display:block;font-weight:400;color:var(--muted);font-size:.88em;margin-top:2px}
 
-  /* ---------- Timeline ---------- */
-  .timeline{display:flex;flex-direction:column;gap:0}
-  .tl{display:grid;grid-template-columns:44px 1fr;gap:22px;position:relative;padding-bottom:30px}
-  .tl:not(:last-child)::before{content:"";position:absolute;left:21px;top:44px;bottom:0;width:3px;background:var(--gray-200)}
-  .tl.done:not(:last-child)::before{background:var(--green-600)}
-  .dot{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:3px solid var(--gray-200)}
-  .tl.done .dot{background:var(--green-600);border-color:var(--green-600);color:#fff}
-  .tl.now .dot{border-color:var(--accent);background:var(--aqua-50)} .tl.now .dot::after{content:"";width:14px;height:14px;border-radius:50%;background:var(--accent)}
-  .tl h3{font-size:26px;margin-bottom:4px}
-  .tl p{font-size:21px}
+/* tags */
+.tags{display:flex;flex-wrap:wrap;gap:10px}
+.tag{display:inline-flex;align-items:center;min-height:40px;padding:8px 18px;border-radius:999px;border:1px solid var(--gray-200);background:var(--surface);font-size:clamp(13px,1vw,16px);font-weight:600;color:var(--brand)}
+.dark .tag,.deep .tag{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:#fff}
 
-  /* ---------- Cover ---------- */
-  .cover{background:radial-gradient(1200px 700px at 85% 30%,rgba(7,147,182,.35),transparent 60%),linear-gradient(160deg,var(--navy-800),var(--navy-950));color:#fff;padding:110px 120px}
-  .cover .logo{width:130px;height:auto}
-  .cover .tagline{font-size:40px;line-height:1.35;color:rgba(255,255,255,.88);max-width:900px;margin-top:28px;font-weight:500;letter-spacing:-.01em}
-  .cover .team{margin-top:auto;font-size:20px;color:rgba(255,255,255,.7);line-height:1.6;max-width:900px}
-  .cover .team strong{color:#fff}
-  .cover .phones{position:absolute;right:120px;top:120px;display:flex;gap:36px;align-items:flex-start}
-  .cover .phones .phone:nth-child(2){margin-top:110px}
-  .water{position:absolute;inset:auto -10% -20% auto;width:900px;height:900px;border-radius:50%;background:radial-gradient(circle,rgba(108,197,223,.18),transparent 65%);pointer-events:none}
+/* ---------- COVER ---------- */
+#s0{background:radial-gradient(900px 600px at 80% 30%,rgba(7,147,182,.35),transparent 60%),linear-gradient(160deg,var(--navy-800),var(--navy-950));color:#fff;justify-content:flex-end;padding-bottom:0}
+.cover-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(24px,4vw,64px);align-items:end}
+.cover-copy .kicker{display:flex;align-items:center;gap:14px;color:var(--aqua-300);font-size:clamp(12px,1vw,15px);font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.cover-copy .kicker img{width:44px;height:44px}
+.cover-copy h1{margin-top:clamp(12px,2vh,24px)}
+.cover-copy h1 em{color:var(--aqua-300)}
+.cover-copy .tag-line{font-size:clamp(18px,1.9vw,30px);line-height:1.4;color:rgba(255,255,255,.86);max-width:30ch;margin-top:clamp(16px,2.6vh,30px);font-weight:500;letter-spacing:-.01em}
+.cover-cta{display:flex;flex-wrap:wrap;align-items:center;gap:16px;margin-top:clamp(20px,3.4vh,40px)}
+.btn{display:inline-flex;align-items:center;gap:12px;min-height:52px;padding:0 24px;border-radius:999px;font-weight:700;font-size:16px;text-decoration:none;transition:transform .3s var(--ease),background .3s,color .3s}
+.btn.light{background:#fff;color:var(--brand)}
+.btn.light:hover{background:var(--aqua-300);transform:translateY(-2px)}
+.btn svg{width:18px;height:18px}
+.credits{font-size:14px;color:rgba(255,255,255,.65);line-height:1.6}
+.credits b{color:#fff;font-weight:600}
+.cover-phones{display:flex;justify-content:center;gap:clamp(12px,2vw,28px);align-items:flex-end;transform:translateY(12%)}
+.cover-phones .phone{--pw:clamp(150px,17vw,300px)}
+.cover-phones .phone:first-child{transform:translateY(-10%) rotate(-4deg)}
+.cover-phones .phone:last-child{transform:rotate(3deg)}
+@media (max-width:960px){.cover-grid{grid-template-columns:minmax(0,1fr)}.cover-phones{transform:none;margin-top:8px}.cover-phones .phone{--pw:clamp(130px,38vw,240px)}.cover-phones .phone:first-child{transform:translateY(8%) rotate(-4deg)}}
+.marquee{position:relative;margin:clamp(28px,5vh,56px) calc(var(--pad) * -1) 0;border-top:1px solid rgba(255,255,255,.12);padding:14px 0;overflow:hidden;z-index:2;background:var(--navy-950)}
+.marquee .track{display:flex;width:max-content;animation:marq 38s linear infinite}
+.marquee span{display:inline-flex;align-items:center;gap:28px;padding-right:28px;font-size:clamp(14px,1.2vw,18px);font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.75);white-space:nowrap}
+.marquee span i{width:8px;height:8px;border-radius:50%;background:var(--aqua-500)}
+@keyframes marq{to{transform:translateX(-50%)}}
 
-  /* ---------- Before / after ---------- */
-  .ba{display:flex;gap:28px;align-items:flex-end}
-  .ba .label{font-size:18px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gray-500);text-align:center;margin-bottom:14px}
-  .ba .label.new{color:var(--aqua-600)}
+/* journey */
+.journey{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(12px,1.6vw,28px);align-items:start}
+.journey > div{display:flex;flex-direction:column;align-items:center}
+.journey .phone{--pw:100%;max-width:250px;width:100%;border-radius:clamp(24px,2.6vw,40px);padding:clamp(6px,.6vw,9px)}
+.journey .phone img{border-radius:clamp(18px,2.1vw,32px)}
+.step{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--brand);color:#fff;font-weight:800;margin-bottom:16px}
+@media (max-width:960px){
+  .journey{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;margin:0 calc(var(--pad) * -1);padding:4px var(--pad) 20px;scrollbar-width:none}
+  .journey::-webkit-scrollbar{display:none}
+  .journey > div{scroll-snap-align:center;flex:0 0 min(64vw,250px)}
+}
+.swipe{display:none;font-size:13px;color:var(--gray-500);margin-top:8px}
+@media (max-width:960px){.swipe{display:block}}
 
-  /* ---------- Chrome ---------- */
-  .chrome{position:fixed;left:0;right:0;bottom:0;height:auto;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;gap:16px;pointer-events:none;z-index:5}
-  .chrome > *{pointer-events:auto}
-  .counter{font:600 14px/1 Inter,system-ui,sans-serif;color:rgba(255,255,255,.75);letter-spacing:.06em;font-variant-numeric:tabular-nums}
-  .nav-btns{display:flex;gap:8px}
-  .nav-btns button{width:44px;height:44px;border-radius:12px;border:1px solid rgba(255,255,255,.18);background:rgba(4,25,61,.65);color:#fff;cursor:pointer;display:grid;place-items:center;backdrop-filter:blur(8px);transition:background .2s}
-  .nav-btns button:hover{background:rgba(7,147,182,.8)}
-  .nav-btns button:focus-visible{outline:2px solid var(--aqua-300);outline-offset:2px}
-  .nav-btns svg{width:20px;height:20px}
-  .progress{position:fixed;left:0;top:0;height:4px;background:var(--aqua-500);transition:width .45s ease;z-index:6}
-  .hint{font:500 13px/1.3 Inter,system-ui,sans-serif;color:rgba(255,255,255,.55)}
-  @media (max-width:700px){.hint{display:none}}
+/* table */
+.tablewrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--line);background:var(--surface);-webkit-overflow-scrolling:touch}
+table{width:100%;min-width:760px;border-collapse:collapse}
+th,td{padding:clamp(12px,1.2vw,18px) clamp(14px,1.4vw,22px);text-align:left;font-size:clamp(14px,1vw,17px);border-bottom:1px solid var(--line);color:var(--muted);vertical-align:middle}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--gray-500);font-weight:600;background:var(--gray-25)}
+tr:last-child td{border-bottom:0}
+td:first-child,th:first-child{position:sticky;left:0;background:var(--surface);font-weight:600;color:var(--text);z-index:1}
+th:first-child{background:var(--gray-25)}
+.ga{background:var(--aqua-50)!important;color:var(--brand)!important;font-weight:700}
+.yes{color:var(--green-600);font-weight:700}.no{color:var(--red-600);font-weight:700}.mid{color:var(--amber-600);font-weight:700}
 
-  /* slide footer */
-  .foot{position:absolute;left:120px;right:120px;bottom:44px;display:flex;justify-content:space-between;align-items:center;font-size:18px;color:var(--gray-500)}
-  .foot .brandmark{display:flex;align-items:center;gap:10px;font-weight:700;color:var(--brand)}
-  .foot .brandmark img{height:36px;width:36px;padding:5px;border-radius:10px;background:var(--brand)}
-  .dark .foot,.cover .foot{color:rgba(255,255,255,.6)}
-  .dark .foot .brandmark,.cover .foot .brandmark{color:#fff}
-  .dark .foot .brandmark img,.cover .foot .brandmark img{background:rgba(255,255,255,.12)}
+/* timeline */
+.tl{display:grid;grid-template-columns:36px 1fr;gap:18px;position:relative;padding-bottom:clamp(18px,2.6vh,28px)}
+.tl:not(:last-child)::before{content:"";position:absolute;left:17px;top:36px;bottom:0;width:2px;background:var(--gray-200)}
+.tl.done:not(:last-child)::before{background:var(--green-600)}
+.dot{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--gray-200)}
+.tl.done .dot{background:var(--green-600);border-color:var(--green-600);color:#fff}
+.tl.cur .dot{border-color:var(--accent);background:var(--aqua-50)}
+.tl.cur .dot::after{content:"";width:12px;height:12px;border-radius:50%;background:var(--accent)}
+.tl > div:last-child{min-width:0}
+.tl h3{font-size:clamp(17px,1.3vw,21px);margin-bottom:2px}
+.pill{display:inline-flex;align-items:center;height:26px;padding:0 10px;border-radius:999px;font-size:12px;font-weight:700;background:var(--amber-50);color:var(--amber-600);margin-left:8px;vertical-align:middle}
 
-  @media print{
-    html,body{overflow:visible;background:#fff}
-    .viewport{position:static;display:block}
-    .stage{transform:none!important;position:static;width:1920px;height:auto}
-    .slide{position:relative;opacity:1;visibility:visible;transform:none;page-break-after:always;height:1080px}
-    .chrome,.progress{display:none}
-    @page{size:1920px 1080px;margin:0}
-  }
+/* before/after */
+.ba{display:flex;align-items:center;justify-content:center;gap:clamp(12px,2vw,28px)}
+.ba .phone{--pw:clamp(120px,12vw,190px)}
+.ba .lab{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;text-align:center;color:var(--gray-500);margin-bottom:12px}
+.ba .lab.new{color:var(--aqua-600)}
+.ba .arrow{color:var(--aqua-500)}
+
+/* closing */
+#s11 .big{font-size:clamp(72px,16vw,260px);line-height:.85;font-weight:900;letter-spacing:-.06em;color:#fff}
+#s11 .big em{color:var(--aqua-300)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--d,0) * 90ms)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none;transition:none}
+  .marquee .track{animation:none}
+  .menu,.menu li a,.menu .preview,.phone,.card{transition:none!important}
+}
+
+/* footer nav */
+.pager{position:fixed;right:var(--pad);bottom:clamp(14px,2.4vh,24px);z-index:40;display:flex;gap:8px}
+.pager button{width:46px;height:46px;border-radius:50%;border:1px solid rgba(7,42,94,.18);background:color-mix(in srgb,#fff 80%,transparent);backdrop-filter:blur(10px);color:var(--brand);display:grid;place-items:center;cursor:pointer;transition:all .3s var(--ease)}
+.pager button:hover{background:var(--brand);color:#fff;transform:translateY(-2px)}
+.pager button:disabled{opacity:.35;pointer-events:none}
+.pager.on-dark button{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff}
+.pager.on-dark button:hover{background:#fff;color:var(--brand)}
+.pager svg{width:20px;height:20px}
+body.menu-open .pager{opacity:0;pointer-events:none}
+@media (max-width:860px){.pager{display:none}}
+
+@media print{
+  .topbar,.rail,.menu,.pager,.progress,.marquee{display:none!important}
+  html{scroll-snap-type:none}
+  .sec{min-height:auto;page-break-after:always;padding:48px}
+  .rv{opacity:1;transform:none}
+}
 </style>
 </head>
 <body>
-<div class="progress" id="progress"></div>
+<a class="skip" href="#s1">Saltar al contenido</a>
+<div class="progress" id="progress" aria-hidden="true"></div>
 
-<div class="viewport">
-<main class="stage" id="stage">
-
-<!-- ============ 0 · PORTADA ============ -->
-<section class="slide cover active" data-title="Portada">
-  <div class="water"></div>
-  <img class="logo" src="assets/logo-white.png" alt="Logo de GotApp: una gota con la cordillera">
-  <div class="eyebrow mt-m" style="color:var(--aqua-300)">Cuidemos el agua · Mendoza</div>
-  <h1 style="color:#fff">GotApp</h1>
-  <p class="tagline">Reportá una pérdida de agua en la vía pública en menos de un minuto, y seguí tu reclamo hasta que se resuelva.</p>
-  <div class="tags mt-m">
-    <span class="tag">App móvil ciudadana</span><span class="tag">Participación</span><span class="tag">Transparencia</span>
+<header class="topbar on-dark" id="topbar">
+  <a class="brand" href="#s0" aria-label="GotApp, ir al inicio"><span class="mark"><img src="assets/logo-white.png" alt=""></span>GotApp</a>
+  <div class="now" aria-live="polite"><span class="n" id="nowNum">00</span><span class="t" id="nowTitle">Portada</span></div>
+  <div class="actions">
+    <span class="count" id="count">00 / 10</span>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu"><span class="lbl">Índice</span><span class="burger" aria-hidden="true"><i></i><i></i></span></button>
   </div>
-  <p class="team">Equipo Azul · <strong>Francesca Zorrilla, Ismael Díaz, Emiliano García Fuenzalida, Daniel Llalen, Paula Pamela Marinero</strong></p>
-  <div class="phones">
-    <div class="phone lg"><img src="assets/v2-inicio.png" alt="Pantalla de inicio de GotApp"></div>
-    <div class="phone lg"><img src="assets/v2-seguimiento.png" alt="Pantalla de seguimiento de un reclamo"></div>
-  </div>
-</section>
+</header>
 
-<!-- ============ 1 · PROYECTO Y PROPÓSITO ============ -->
-<section class="slide" data-title="Proyecto y propósito">
-  <div class="eyebrow"><span class="num">01</span>Presentación del proyecto y propósito</div>
-  <div class="row grow" style="gap:80px">
-    <div style="flex:1">
-      <h2>Una herramienta simple para que cualquier vecino pueda actuar cuando ve agua perdiéndose</h2>
-      <p class="lead">GotApp es una aplicación móvil para que cualquier ciudadano de Mendoza reporte pérdidas de agua en la vía pública, con foto y ubicación, y reciba seguimiento real del reclamo.</p>
-      <div class="cols-3 mt-l">
-        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></div><h3>Propósito</h3><p>Pasar de mirar a actuar: cuidar un recurso escaso con una acción concreta y rápida.</p></div>
-        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></div><h3>Origen</h3><p>Proyecto final de un bootcamp de UX/UI, diseñado a partir de investigación con usuarios reales.</p></div>
-        <div class="card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div><h3>Hoy</h3><p>En incubación junto al gobierno provincial, para integrarse a una plataforma de servicios hídricos.</p></div>
+<nav class="menu" id="menu" aria-label="Índice de la presentación" aria-hidden="true">
+  <ol id="menuList"></ol>
+  <div class="preview" aria-hidden="true"><img id="menuPreview" src="assets/v2-inicio.png" alt=""></div>
+  <p class="meta">Usá ↑ ↓ o ← → para moverte · M abre el índice · Esc lo cierra</p>
+</nav>
+
+<nav class="rail on-dark" id="rail" aria-label="Secciones"></nav>
+
+<div class="pager on-dark" id="pager">
+  <button id="prevBtn" aria-label="Sección anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
+  <button id="nextBtn" aria-label="Sección siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>
+</div>
+
+<main id="main">
+
+<!-- ================= 00 · COVER ================= -->
+<section class="sec" id="s0" data-title="Portada" data-short="Inicio" data-theme="dark" data-img="assets/v2-inicio.png">
+  <div class="wrap cover-grid">
+    <div class="cover-copy">
+      <div class="kicker rv"><img src="assets/logo-white.png" alt="Logo de GotApp: una gota con la cordillera">Cuidemos el agua · Mendoza</div>
+      <h1 class="rv" style="--d:1">Got<em>App</em></h1>
+      <p class="tag-line rv" style="--d:2">Reportá una pérdida de agua en la vía pública en menos de un minuto, y seguí tu reclamo hasta que se resuelva.</p>
+      <div class="cover-cta rv" style="--d:3">
+        <a class="btn light" href="#s1">Empezar recorrido <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
+        <p class="credits">Proyecto de <b>Paula Pamela Marinero</b> y <b>Emiliano García Fuenzalida</b></p>
       </div>
     </div>
-    <div class="quote" style="width:520px;align-self:center">
-      <p>“Basta de mirar para otro lado. Reportá roturas al instante. El cambio empieza con vos.”</p>
-      <cite>Mensaje central de GotApp</cite>
+    <div class="cover-phones rv" style="--d:2">
+      <div class="phone"><img src="assets/v2-inicio.png" alt="Pantalla de inicio de GotApp"></div>
+      <div class="phone"><img src="assets/v2-seguimiento.png" alt="Seguimiento de un reclamo en GotApp"></div>
     </div>
   </div>
-  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Proyecto y propósito</span></div>
+  <div class="marquee" aria-hidden="true"><div class="track">
+    <span>Reportá en 3 pasos<i></i>Seguimiento real<i></i>Transparencia<i></i>Cada gota cuenta<i></i>Mendoza<i></i>Participación ciudadana<i></i></span>
+    <span>Reportá en 3 pasos<i></i>Seguimiento real<i></i>Transparencia<i></i>Cada gota cuenta<i></i>Mendoza<i></i>Participación ciudadana<i></i></span>
+  </div></div>
 </section>
 
-<!-- ============ 2 · PROBLEMÁTICA ============ -->
-<section class="slide" data-title="Problemática">
-  <div class="eyebrow"><span class="num">02</span>Problemática detectada</div>
-  <h2>Todos ven las pérdidas. Casi nadie sabe cómo reportarlas.</h2>
-  <p class="lead">No existía una herramienta accesible para que un ciudadano común reportara una pérdida en la calle de forma rápida y con seguimiento. Los canales existentes eran burocráticos, poco intuitivos y no estaban pensados desde la urgencia del usuario.</p>
-  <div class="cols-4 mt-m">
-    <div class="stat"><div class="value">100<small>%</small></div><div class="label">de las personas encuestadas vio una pérdida de agua en la vía pública</div></div>
-    <div class="stat accent"><div class="value">29<small>%</small></div><div class="label">supo qué hacer ante una pérdida: la mayoría no sabe dónde ni cómo reclamar</div></div>
-    <div class="stat"><div class="value">~3<small>/4</small></div><div class="label">tuvo alguna vez afectado el suministro en su domicilio</div></div>
-    <div class="stat"><div class="value">3.394</div><div class="label">denuncias por pérdidas de agua en calles recibió Aysam en febrero de 2022</div></div>
-  </div>
-  <div class="row mt-s" style="gap:28px">
-    <div class="quote" style="flex:1"><p>“No puede hacer reclamos porque nunca puede comunicarse con la empresa.”</p><cite>Frustración de la user persona, validada en entrevistas</cite></div>
-    <div class="quote" style="flex:1"><p>“Esto pasa seguido y nadie lo arregla. ¿Será la municipalidad o Aysam?”</p><cite>Pensamientos relevados en el User Journey</cite></div>
-  </div>
-  <p class="source">Fuente: encuesta cuantitativa del equipo (mayores de 18, Gran Mendoza) y noticias relevadas durante la investigación.</p>
-  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Problemática</span></div>
-</section>
-
-<!-- ============ 3 · JUSTIFICACIÓN ============ -->
-<section class="slide dark" data-title="Justificación">
-  <div class="eyebrow"><span class="num">03</span>Justificación · El agua en Mendoza</div>
-  <div class="row grow" style="gap:80px;align-items:center">
-    <div style="flex:1.1">
-      <h2>En una provincia semiárida, cada gota cuenta</h2>
-      <p class="lead">Mendoza depende del deshielo de la Cordillera de los Andes y de una red de canales y acequias que sostienen la vida urbana y productiva. Con recursos hídricos limitados, una pérdida que nadie reporta se convierte en agua que no vuelve.</p>
-      <div class="cols-2 mt-l" style="gap:28px">
-        <div class="card brand" style="background:rgba(255,255,255,.08)"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg></div><h3>Agua que nace en la cordillera</h3><p>El símbolo de GotApp une la gota y las montañas: el origen del agua que abastece la provincia.</p></div>
-        <div class="card brand" style="background:rgba(255,255,255,.08)"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Cuidado colectivo</h3><p>Detectar y reparar rápido reduce el derroche y protege el suministro de todos.</p></div>
+<!-- ================= 01 · PROYECTO ================= -->
+<section class="sec" id="s1" data-title="Proyecto y propósito" data-img="assets/v2-bienvenida.png">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">01</span>Presentación del proyecto y propósito</div>
+    <div class="split">
+      <div>
+        <h2 class="rv" style="--d:1">Una herramienta simple para <em>actuar</em> cuando ves agua perdiéndose</h2>
+        <p class="lead rv" style="--d:2">GotApp es una aplicación móvil para que cualquier ciudadano de Mendoza reporte pérdidas de agua en la vía pública, con foto y ubicación, y reciba seguimiento real del reclamo.</p>
       </div>
+      <div class="quote rv" style="--d:3"><p>“Basta de mirar para otro lado. Reportá roturas al instante. El cambio empieza con vos.”</p><cite>Mensaje central de GotApp</cite></div>
     </div>
-    <div style="width:620px;display:flex;flex-direction:column;gap:28px">
-      <div class="stat accent" style="background:var(--aqua-500)"><div class="value">~50<small>%</small></div><div class="label" style="color:#fff">del agua se pierde, según una estimación de Aguas Mendocinas citada en la investigación.</div></div>
-      <div class="quote"><p>“Sabe lo importante que es cada gota en una provincia donde el agua es vida, donde las acequias no solo decoran la ciudad, sino que la sostienen.”</p><cite>Storytelling de Ana, la user persona</cite></div>
+    <div class="g3 mt-l">
+      <div class="card rv" style="--d:1"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></div><h3>Propósito</h3><p>Pasar de mirar a actuar: cuidar un recurso escaso con una acción concreta y rápida.</p></div>
+      <div class="card rv" style="--d:2"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></div><h3>Origen</h3><p>Proyecto final de un bootcamp de UX/UI, diseñado a partir de investigación con usuarios reales.</p></div>
+      <div class="card soft rv" style="--d:3"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div><h3>Hoy</h3><p>En incubación junto al gobierno provincial, para integrarse a una plataforma de servicios hídricos.</p></div>
     </div>
   </div>
-  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Justificación</span></div>
 </section>
 
-<!-- ============ 4 · SOLUCIÓN ============ -->
-<section class="slide" data-title="Solución">
-  <div class="eyebrow"><span class="num">04</span>Solución propuesta</div>
-  <div class="row grow" style="gap:70px;align-items:center">
-    <div style="flex:1">
-      <h2>GotApp: reportar fácil, recibir respuesta</h2>
-      <p class="lead">Con una foto, un punto en el mapa y una breve descripción, el reclamo llega al organismo correspondiente. Sin número de factura ni trámites.</p>
-      <div class="cols-3 mt-l" style="gap:22px">
-        <div class="card tint"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div><h3>Reportar</h3><p>Flujo guiado en 3 pasos: foto, ubicación por GPS y detalles.</p></div>
-        <div class="card tint"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></div><h3>Seguir</h3><p>Número de reclamo, estados claros y notificaciones en cada cambio.</p></div>
-        <div class="card tint"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg></div><h3>Informarse</h3><p>Cortes programados, mapa de surtidores y consejos de cuidado.</p></div>
+<!-- ================= 02 · PROBLEMÁTICA ================= -->
+<section class="sec" id="s2" data-title="Problemática" data-img="assets/v1-reportar.png">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">02</span>Problemática detectada</div>
+    <h2 class="wide rv" style="--d:1">Todos ven las pérdidas. <em>Casi nadie</em> sabe cómo reportarlas.</h2>
+    <p class="lead rv" style="--d:2">No existía una herramienta accesible para reportar una pérdida en la calle de forma rápida y con seguimiento. Los canales existentes eran burocráticos, poco intuitivos y no estaban pensados desde la urgencia del usuario.</p>
+    <div class="g4 mt-l">
+      <div class="stat rv" style="--d:1"><div class="v">100<small>%</small></div><p class="l">de las personas encuestadas vio una pérdida de agua en la vía pública.</p></div>
+      <div class="stat hl rv" style="--d:2"><div class="v">29<small>%</small></div><p class="l">supo qué hacer ante una pérdida: la mayoría no sabe dónde ni cómo reclamar.</p></div>
+      <div class="stat rv" style="--d:3"><div class="v">~3<small>/4</small></div><p class="l">tuvo alguna vez afectado el suministro en su domicilio.</p></div>
+      <div class="stat rv" style="--d:4"><div class="v">3.394</div><p class="l">denuncias por pérdidas de agua en calles recibió Aysam en febrero de 2022.</p></div>
+    </div>
+    <div class="g2 mt-l">
+      <div class="quote rv"><p>“No puede hacer reclamos porque nunca logra comunicarse con la empresa.”</p><cite>Frustración validada en entrevistas</cite></div>
+      <div class="quote rv" style="--d:1"><p>“Esto pasa seguido y nadie lo arregla. ¿Será la municipalidad o Aysam?”</p><cite>Pensamientos del User Journey</cite></div>
+    </div>
+    <p class="src">Fuente: encuesta cuantitativa del equipo (mayores de 18, Gran Mendoza) y noticias relevadas durante la investigación.</p>
+  </div>
+</section>
+
+<!-- ================= 03 · JUSTIFICACIÓN ================= -->
+<section class="sec deep" id="s3" data-title="Justificación" data-theme="dark" data-img="assets/v2-cortes.png">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">03</span>Justificación · El agua en Mendoza</div>
+    <div class="split">
+      <div>
+        <h2 class="rv" style="--d:1">En una provincia semiárida, <em>cada gota cuenta</em></h2>
+        <p class="lead rv" style="--d:2">Mendoza depende del deshielo de la Cordillera de los Andes y de una red de canales y acequias que sostienen la vida urbana y productiva. Con recursos hídricos limitados, una pérdida que nadie reporta es agua que no vuelve.</p>
       </div>
+      <div class="stat hl rv" style="--d:2"><div class="v">~50<small>%</small></div><p class="l">del agua se pierde, según una estimación de Aguas Mendocinas citada en la investigación.</p></div>
     </div>
-    <div class="row" style="gap:28px">
-      <div><div class="phone"><img src="assets/v2-inicio.png" alt="Inicio de GotApp con el botón Reportar una pérdida"></div><p class="caption">Inicio<span>La acción principal, a un toque</span></p></div>
-      <div><div class="phone"><img src="assets/v2-enviado.png" alt="Confirmación de reporte enviado con número de reclamo"></div><p class="caption">Confirmación<span>Número y estado del reclamo</span></p></div>
+    <div class="g3 mt-l">
+      <div class="card rv" style="--d:1"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m8 3 4 8 5-5 5 15H2L8 3z"/></svg></div><h3>Nace en la cordillera</h3><p>El símbolo de GotApp une la gota y las montañas: el origen del agua que abastece a la provincia.</p></div>
+      <div class="card rv" style="--d:2"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><h3>Cuidado colectivo</h3><p>Detectar y reparar rápido reduce el derroche y protege el suministro de todos.</p></div>
+      <div class="quote rv" style="--d:3"><p>“Las acequias no solo decoran la ciudad: la sostienen.”</p><cite>Storytelling de Ana, la user persona</cite></div>
     </div>
   </div>
-  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Solución</span></div>
 </section>
 
-<!-- ============ 5 · FUNCIONAMIENTO Y RECORRIDO ============ -->
-<section class="slide" data-title="Recorrido del usuario">
-  <div class="eyebrow"><span class="num">05</span>Funcionamiento y recorrido del usuario</div>
-  <h2>De ver la pérdida a saber que se resolvió</h2>
-  <div class="journey mt-m grow">
-    <div><div class="step-n" style="display:grid">1</div><div class="phone sm"><img src="assets/v2-paso1-foto.png" alt="Paso 1: foto de la pérdida"></div><p class="caption">Sacá una foto<span>Sin número de factura</span></p></div>
-    <div><div class="step-n" style="display:grid">2</div><div class="phone sm"><img src="assets/v2-paso2-ubicacion.png" alt="Paso 2: ubicación en el mapa"></div><p class="caption">Marcá la ubicación<span>GPS + ajuste en el mapa</span></p></div>
-    <div><div class="step-n" style="display:grid">3</div><div class="phone sm"><img src="assets/v2-paso3-detalles.png" alt="Paso 3: tipo de pérdida y descripción"></div><p class="caption">Contá qué pasa<span>Tipo y descripción breve</span></p></div>
-    <div><div class="step-n" style="display:grid">4</div><div class="phone sm"><img src="assets/v2-enviado.png" alt="Reporte enviado"></div><p class="caption">Recibí tu número<span>Confirmación inmediata</span></p></div>
-    <div><div class="step-n" style="display:grid">5</div><div class="phone sm"><img src="assets/v2-seguimiento.png" alt="Seguimiento del reclamo"></div><p class="caption">Seguí el estado<span>Recibido → En proceso → Resuelto</span></p></div>
-  </div>
-  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Recorrido del usuario · Ana, vecina de Godoy Cruz</span></div>
-</section>
-
-<!-- ============ 6 · PÚBLICO Y ACTORES ============ -->
-<section class="slide compact" data-title="Público y actores">
-  <div class="eyebrow"><span class="num">06</span>Público objetivo y actores involucrados</div>
-  <div class="cols-2 grow" style="gap:56px">
+<!-- ================= 04 · SOLUCIÓN ================= -->
+<section class="sec" id="s4" data-title="Solución" data-img="assets/v2-enviado.png">
+  <div class="wrap split">
     <div>
-      <h2 style="font-size:48px">Pensada para todos, desde quien usa solo WhatsApp</h2>
-      <p class="lead" style="font-size:24px;margin-top:18px">Residentes de Mendoza mayores de 18 años, en zonas urbanas y suburbanas: usuarios domésticos y pequeños comerciantes que dependen del suministro, con conocimientos básicos de tecnología.</p>
-      <div class="card mt-s" style="display:flex;gap:28px;align-items:flex-start;padding:28px">
-        <div style="width:96px;height:96px;border-radius:50%;background:var(--aqua-50);display:grid;place-items:center;flex:none;color:var(--aqua-600)"><svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
-        <div>
-          <h3>Ana Soler · User persona validada</h3>
-          <p>Profesora de Artes Digitales, vecina de Godoy Cruz. Responsable, empática y comprometida con el ambiente. <strong>Necesita un canal rápido y confiable</strong> para reportar y saber que su reclamo fue atendido.</p>
+      <div class="eyebrow rv"><span class="num">04</span>Solución propuesta</div>
+      <h2 class="rv" style="--d:1">GotApp: reportar fácil, <em>recibir respuesta</em></h2>
+      <p class="lead rv" style="--d:2">Con una foto, un punto en el mapa y una breve descripción, el reclamo llega al organismo correspondiente. Sin número de factura ni trámites.</p>
+      <div class="g3 mt-m">
+        <div class="card soft rv" style="--d:1"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div><h3>Reportar</h3><p>Guiado en 3 pasos: foto, ubicación por GPS y detalles.</p></div>
+        <div class="card soft rv" style="--d:2"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></div><h3>Seguir</h3><p>Número de reclamo, estados claros y notificaciones.</p></div>
+        <div class="card soft rv" style="--d:3"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg></div><h3>Informarse</h3><p>Cortes programados, surtidores y consejos.</p></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:clamp(12px,2vw,28px);justify-content:center" class="rv" data-d="2">
+      <div><div class="phone" style="--pw:clamp(150px,17vw,290px)"><img src="assets/v2-inicio.png" alt="Inicio de GotApp con el botón Reportar una pérdida"></div><p class="cap">Inicio<span>La acción principal, a un toque</span></p></div>
+      <div style="margin-top:clamp(24px,6vw,80px)"><div class="phone" style="--pw:clamp(150px,17vw,290px)"><img src="assets/v2-enviado.png" alt="Confirmación de reporte enviado con número de reclamo"></div><p class="cap">Confirmación<span>Número y estado del reclamo</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 05 · RECORRIDO ================= -->
+<section class="sec tint" id="s5" data-title="Recorrido del usuario" data-img="assets/v2-paso2-ubicacion.png">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">05</span>Funcionamiento y recorrido del usuario</div>
+    <h2 class="wide rv" style="--d:1">De ver la pérdida a <em>saber que se resolvió</em></h2>
+    <p class="lead rv" style="--d:2">Ana, vecina de Godoy Cruz, ve agua corriendo por la vereda camino a su trabajo. Así lo resuelve con GotApp:</p>
+    <div class="journey mt-m">
+      <div class="rv" style="--d:1"><span class="step">1</span><div class="phone"><img src="assets/v2-paso1-foto.png" alt="Paso 1: foto de la pérdida" loading="lazy"></div><p class="cap">Sacá una foto<span>Sin número de factura</span></p></div>
+      <div class="rv" style="--d:2"><span class="step">2</span><div class="phone"><img src="assets/v2-paso2-ubicacion.png" alt="Paso 2: ubicación en el mapa" loading="lazy"></div><p class="cap">Marcá la ubicación<span>GPS + ajuste en el mapa</span></p></div>
+      <div class="rv" style="--d:3"><span class="step">3</span><div class="phone"><img src="assets/v2-paso3-detalles.png" alt="Paso 3: tipo de pérdida y descripción" loading="lazy"></div><p class="cap">Contá qué pasa<span>Tipo y descripción breve</span></p></div>
+      <div class="rv" style="--d:4"><span class="step">4</span><div class="phone"><img src="assets/v2-enviado.png" alt="Reporte enviado" loading="lazy"></div><p class="cap">Recibí tu número<span>Confirmación inmediata</span></p></div>
+      <div class="rv" style="--d:5"><span class="step">5</span><div class="phone"><img src="assets/v2-seguimiento.png" alt="Seguimiento del reclamo" loading="lazy"></div><p class="cap">Seguí el estado<span>Recibido → En proceso → Resuelto</span></p></div>
+    </div>
+    <p class="swipe">Deslizá para ver los 5 pasos →</p>
+  </div>
+</section>
+
+<!-- ================= 06 · PÚBLICO Y ACTORES ================= -->
+<section class="sec" id="s6" data-title="Público y actores" data-img="assets/v2-perfil.png">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">06</span>Público objetivo y actores involucrados</div>
+    <div class="split" style="align-items:start">
+      <div>
+        <h2 class="rv" style="--d:1">Pensada para todos, <em>desde quien usa solo WhatsApp</em></h2>
+        <p class="lead rv" style="--d:2">Residentes de Mendoza mayores de 18 años en zonas urbanas y suburbanas: usuarios domésticos y pequeños comerciantes que dependen del suministro, con conocimientos básicos de tecnología.</p>
+        <div class="card mt-m rv" style="--d:3;display:flex;gap:20px;align-items:flex-start">
+          <div class="ico" style="flex:none;margin:0;width:64px;height:64px;border-radius:50%"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div>
+          <div><h3>Ana Soler · user persona validada</h3><p>Profesora de Artes Digitales, vecina de Godoy Cruz. Responsable, empática y comprometida con el ambiente. <strong>Necesita un canal rápido y confiable</strong> para reportar y saber que su reclamo fue atendido.</p></div>
+        </div>
+        <div class="g2 mt-m">
+          <div class="stat rv"><div class="v">59,3<small>%</small></div><p class="l">de las personas encuestadas tiene entre 35 y 65 años.</p></div>
+          <div class="stat rv" style="--d:1"><div class="v">6</div><p class="l">departamentos relevados: Capital, Godoy Cruz, Guaymallén, Las Heras, Luján y Maipú.</p></div>
         </div>
       </div>
-      <div class="cols-2 mt-s" style="gap:24px">
-        <div class="stat"><div class="value" style="font-size:64px">59,3<small>%</small></div><div class="label">de las personas encuestadas tiene entre 35 y 65 años</div></div>
-        <div class="stat"><div class="value" style="font-size:64px">6</div><div class="label">departamentos relevados: Capital, Godoy Cruz, Guaymallén, Las Heras, Luján y Maipú</div></div>
+      <div>
+        <h3 class="rv" style="margin-bottom:16px">Actores involucrados</h3>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="card rv" style="--d:1"><h3>Ciudadanos y comerciantes</h3><p>Detectan y reportan las pérdidas; suman surtidores al mapa comunitario.</p></div>
+          <div class="card rv" style="--d:2"><h3>Aysam · empresa prestadora</h3><p>Recibe los reclamos georreferenciados y asigna cuadrillas.</p></div>
+          <div class="card rv" style="--d:3"><h3>Cuadrillas de reparación</h3><p>Actualizan el estado del reclamo hasta resolverlo.</p></div>
+          <div class="card rv" style="--d:4"><h3>Municipios</h3><p>Coordinan la reparación de veredas y la información de cortes por zona.</p></div>
+          <div class="card soft rv" style="--d:5"><h3>Gobierno de Mendoza · incubadora</h3><p>Impulsa la integración de GotApp en la plataforma provincial de servicios hídricos.</p></div>
+        </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- ================= 07 · VALOR ================= -->
+<section class="sec" id="s7" data-title="Propuesta de valor" data-img="assets/v2-mis-reportes.png">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">07</span>Propuesta de valor y diferenciación</div>
+    <h2 class="wide rv" style="--d:1">Las apps existentes están hechas para facturar. <em>GotApp, para reportar.</em></h2>
+    <p class="lead rv" style="--d:2">El benchmark de apps de servicios de agua en Argentina mostró una desconexión entre lo que el usuario necesita y lo que ofrecen: foco comercial en facturación y trámites.</p>
+    <div class="tablewrap mt-m rv" style="--d:3" role="region" aria-label="Comparación con otras apps" tabindex="0">
+      <table>
+        <thead><tr><th scope="col">Criterio</th><th scope="col">AySA</th><th scope="col">Aguas Cordobesas</th><th scope="col">Aguas Rionegrinas</th><th scope="col" class="ga">GotApp</th></tr></thead>
+        <tbody>
+          <tr><td>Calificación · descargas</td><td>3,7 ★ · 500 mil</td><td>2,5 ★ · 100 mil</td><td>1,7 ★ · 10 mil</td><td class="ga">Diseñada y validada con usuarios</td></tr>
+          <tr><td>Foco principal</td><td>Facturas y servicios</td><td>Trámites</td><td>Oficina virtual</td><td class="ga">Reporte ciudadano de pérdidas</td></tr>
+          <tr><td>Reclamar sin factura</td><td class="no">No</td><td class="mid">Parcial</td><td class="no">No</td><td class="ga"><span class="yes">Sí</span> · foto + ubicación</td></tr>
+          <tr><td>Seguimiento del reclamo</td><td class="no">Difícil</td><td class="no">“No solucionan reclamos”</td><td class="no">No</td><td class="ga"><span class="yes">Sí</span> · estados y avisos</td></tr>
+          <tr><td>Transparencia de tiempos</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="ga"><span class="yes">Sí</span> · promedio público</td></tr>
+          <tr><td>Enfoque comunitario</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="ga"><span class="yes">Sí</span> · mapa de surtidores</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="swipe">Deslizá la tabla para comparar →</p>
+  </div>
+</section>
+
+<!-- ================= 08 · ESTADO Y MVP ================= -->
+<section class="sec tint" id="s8" data-title="Estado actual y MVP" data-img="assets/v1-inicio.png">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">08</span>Estado actual del proyecto y validación del MVP</div>
+    <div class="split" style="align-items:start">
+      <div>
+        <h2 class="rv" style="--d:1">De ejercicio académico a <em>solución con impacto real</em></h2>
+        <div class="mt-m">
+          <div class="tl done rv" style="--d:1"><div class="dot"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><div><h3>Investigación y MVP</h3><p>Research, prototipo de alta fidelidad y test de usabilidad: completaron el flujo sin instrucciones previas.</p></div></div>
+          <div class="tl done rv" style="--d:2"><div class="dot"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><div><h3>Presentación ante el gobierno</h3><p>GotApp fue presentada ante organismos del gobierno de Mendoza.</p></div></div>
+          <div class="tl cur rv" style="--d:3"><div class="dot"></div><div><h3>Incubación <span class="pill">En curso</span></h3><p>Desarrollo como módulo de una plataforma gubernamental de servicios hídricos. Rediseño 2.0 con design system propio.</p></div></div>
+          <div class="tl rv" style="--d:4"><div class="dot"></div><div><h3>Próximo: piloto</h3><p>Prueba en un departamento y medición de tiempos de resolución.</p></div></div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div class="card rv" style="--d:2">
+          <h3>Funciones imprescindibles del MVP</h3>
+          <div class="tags mt-s"><span class="tag">Registro de usuario</span><span class="tag">Denuncia con foto</span><span class="tag">Geolocalización</span><span class="tag">Seguimiento de estado</span><span class="tag">Notificaciones</span></div>
+          <h3 class="mt-m">Deseables, ya prototipadas</h3>
+          <div class="tags mt-s"><span class="tag">Mapa de surtidores</span><span class="tag">Cortes programados</span><span class="tag">Consejos de uso del agua</span></div>
+        </div>
+        <div class="ba rv" style="--d:3">
+          <div><p class="lab">v1 · 2025</p><div class="phone"><img src="assets/v1-inicio.png" alt="Inicio del diseño original" loading="lazy"></div></div>
+          <svg class="arrow" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          <div><p class="lab new">v2 · rediseño</p><div class="phone"><img src="assets/v2-inicio.png" alt="Inicio del rediseño 2.0" loading="lazy"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 09 · RESULTADOS ================= -->
+<section class="sec" id="s9" data-title="Resultados" data-img="assets/v2-paso3-detalles.png">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">09</span>Resultados de las investigaciones y pruebas</div>
+    <h2 class="wide rv" style="--d:1">La necesidad existe. <em>La disposición también.</em></h2>
+    <div class="g4 mt-l">
+      <div class="stat hl rv" style="--d:1"><div class="v">96,9<small>%</small></div><p class="l">usaría una app para reportar pérdidas de agua.</p></div>
+      <div class="stat rv" style="--d:2"><div class="v">29<small>%</small></div><p class="l">sabía qué hacer: la brecha está en la acción, no en el interés.</p></div>
+      <div class="stat rv" style="--d:3"><div class="v">6</div><p class="l">entrevistas cualitativas para validar la persona y priorizar funciones.</p></div>
+      <div class="stat rv" style="--d:4"><div class="v">3</div><p class="l">apps del sector analizadas en el benchmark competitivo.</p></div>
+    </div>
+    <div class="g3 mt-l">
+      <div class="card rv" style="--d:1"><h3>Encuesta cuantitativa</h3><p>Mayores de 18 años de seis departamentos del Gran Mendoza. Confirmó que el problema es <strong>visible, recurrente y urgente</strong>.</p></div>
+      <div class="card rv" style="--d:2"><h3>Entrevistas y research en campo</h3><p>Conversaciones en un surtidor público. Pedidos repetidos: <strong>notificaciones, mapa, historial y confirmación de envío</strong>.</p></div>
+      <div class="card soft rv" style="--d:3"><h3>Test de usabilidad</h3><p>Usuarios reales completaron el flujo de reporte <strong>sin instrucciones previas</strong>. Se simplificó el flujo quitando pasos innecesarios.</p></div>
+    </div>
+    <div class="quote mt-l rv"><p>“La confianza se gana mostrando que el reclamo se recibió. La app tiene que confirmar, mostrar el estado y dar seguimiento.”</p><cite>Key takeaway de la investigación</cite></div>
+  </div>
+</section>
+
+<!-- ================= 10 · IMPACTO ================= -->
+<section class="sec dark" id="s10" data-title="Impacto esperado" data-theme="dark" data-img="assets/v2-mapa.png">
+  <div class="wrap">
+    <div class="eyebrow rv"><span class="num">10</span>Impacto ambiental y social esperado</div>
+    <h2 class="wide rv" style="--d:1">Menos agua perdida, <em>más ciudadanía activa</em></h2>
+    <div class="g2 mt-l">
+      <div class="card rv" style="--d:1">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></div>
+        <h3>Impacto ambiental</h3>
+        <ul style="margin-top:12px;padding-left:20px;display:grid;gap:10px">
+          <li><strong>Menos tiempo</strong> entre que se detecta una pérdida y se repara: menos agua desperdiciada.</li>
+          <li><strong>Datos georreferenciados</strong> para priorizar el mantenimiento de la red.</li>
+          <li><strong>Conciencia hídrica</strong> con consejos y alertas de cortes para planificar el uso.</li>
+        </ul>
+      </div>
+      <div class="card rv" style="--d:2">
+        <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h3>Impacto social</h3>
+        <ul style="margin-top:12px;padding-left:20px;display:grid;gap:10px">
+          <li><strong>Participación ciudadana</strong>: cualquier vecino puede ser parte de la solución.</li>
+          <li><strong>Transparencia y confianza</strong>: estados y tiempos de resolución visibles.</li>
+          <li><strong>Inclusión</strong>: diseño accesible para personas mayores o que no son nativas digitales.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="tags mt-m rv" style="--d:3"><span class="tag">Indicadores: tiempo promedio de resolución</span><span class="tag">% de reclamos resueltos</span><span class="tag">Reportes por zona</span><span class="tag">Adopción y recurrencia</span></div>
+  </div>
+</section>
+
+<!-- ================= 11 · GRACIAS ================= -->
+<section class="sec deep" id="s11" data-title="Gracias" data-short="Gracias" data-theme="dark" data-img="assets/v2-seguimiento.png">
+  <div class="wrap split">
     <div>
-      <h3 style="font-size:28px;margin-bottom:22px">Actores involucrados</h3>
-      <div style="display:flex;flex-direction:column;gap:14px">
-        <div class="card" style="padding:22px 28px"><h3 style="font-size:24px;margin-bottom:6px">Ciudadanos y comerciantes</h3><p style="font-size:21px">Detectan y reportan las pérdidas; suman surtidores al mapa comunitario.</p></div>
-        <div class="card" style="padding:22px 28px"><h3 style="font-size:24px;margin-bottom:6px">Aysam · empresa prestadora</h3><p style="font-size:21px">Recibe los reclamos georreferenciados y asigna cuadrillas.</p></div>
-        <div class="card" style="padding:22px 28px"><h3 style="font-size:24px;margin-bottom:6px">Cuadrillas de reparación</h3><p style="font-size:21px">Actualizan el estado del reclamo hasta resolverlo.</p></div>
-        <div class="card" style="padding:22px 28px"><h3 style="font-size:24px;margin-bottom:6px">Municipios</h3><p style="font-size:21px">Coordinan la reparación de veredas y la información de cortes por zona.</p></div>
-        <div class="card tint" style="padding:22px 28px"><h3 style="font-size:24px;margin-bottom:6px">Gobierno de Mendoza · incubadora</h3><p style="font-size:21px">Impulsa la integración de GotApp en la plataforma provincial de servicios hídricos.</p></div>
+      <div class="eyebrow rv">Cierre</div>
+      <p class="big rv" style="--d:1">Gra<em>cias</em></p>
+      <p class="lead rv" style="--d:2">Cuidar el agua de Mendoza empieza con un reporte. GotApp lo hace simple.</p>
+      <div class="g2 mt-l" style="max-width:720px">
+        <div class="rv" style="--d:3"><p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--aqua-300)">Equipo</p><h3 class="mt-s">Paula Pamela Marinero</h3></div>
+        <div class="rv" style="--d:4"><p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--aqua-300)">Equipo</p><h3 class="mt-s">Emiliano García Fuenzalida</h3></div>
       </div>
+      <a class="btn light mt-l rv" style="--d:5" href="#s0">Volver al inicio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
     </div>
-  </div>
-  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Público y actores</span></div>
-</section>
-
-<!-- ============ 7 · PROPUESTA DE VALOR ============ -->
-<section class="slide compact" data-title="Propuesta de valor">
-  <div class="eyebrow"><span class="num">07</span>Propuesta de valor y diferenciación</div>
-  <h2>Las apps existentes están hechas para facturar. GotApp, para reportar.</h2>
-  <p class="lead" style="font-size:26px">El benchmark de apps de servicios de agua en Argentina mostró una desconexión entre lo que el usuario necesita y lo que ofrecen: estética simple, pero foco comercial en facturación y trámites.</p>
-  <table class="mt-m">
-    <thead><tr><th style="width:26%"></th><th>AySA</th><th>Aguas Cordobesas</th><th>Aguas Rionegrinas</th><th class="gotapp">GotApp</th></tr></thead>
-    <tbody>
-      <tr><td>Calificación / descargas</td><td>3,7 ★ · 500 mil</td><td>2,5 ★ · 100 mil</td><td>1,7 ★ · 10 mil</td><td class="gotapp">Diseñada y validada con usuarios</td></tr>
-      <tr><td>Foco principal</td><td>Facturas y servicios</td><td>Trámites</td><td>Oficina virtual</td><td class="gotapp">Reporte ciudadano de pérdidas</td></tr>
-      <tr><td>Reclamar sin número de factura</td><td class="no">No</td><td class="mid">Parcial</td><td class="no">No</td><td class="gotapp"><span class="yes">Sí</span> · foto + ubicación</td></tr>
-      <tr><td>Seguimiento del reclamo</td><td class="no">Difícil</td><td class="no">“No solucionan reclamos”</td><td class="no">No</td><td class="gotapp"><span class="yes">Sí</span> · estados y notificaciones</td></tr>
-      <tr><td>Transparencia de tiempos</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="gotapp"><span class="yes">Sí</span> · tiempo promedio público</td></tr>
-      <tr><td>Enfoque comunitario</td><td class="no">No</td><td class="no">No</td><td class="no">No</td><td class="gotapp"><span class="yes">Sí</span> · mapa de surtidores</td></tr>
-    </tbody>
-  </table>
-  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Propuesta de valor</span></div>
-</section>
-
-<!-- ============ 8 · ESTADO Y MVP ============ -->
-<section class="slide" data-title="Estado actual y MVP">
-  <div class="eyebrow"><span class="num">08</span>Estado actual del proyecto y validación del MVP</div>
-  <div class="row grow" style="gap:64px">
-    <div style="flex:1;display:flex;flex-direction:column">
-      <h2 style="font-size:56px">De ejercicio académico a solución con impacto real</h2>
-      <div class="timeline mt-m">
-        <div class="tl done"><div class="dot"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><div><h3>Investigación y MVP</h3><p>Research, prototipo de alta fidelidad y test de usabilidad: completaron el flujo sin instrucciones previas.</p></div></div>
-        <div class="tl done"><div class="dot"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div><div><h3>Presentación ante el gobierno</h3><p>GotApp fue presentada ante organismos del gobierno de Mendoza.</p></div></div>
-        <div class="tl now"><div class="dot"></div><div><h3>Incubación <span class="status s-warn" style="margin-left:10px;vertical-align:middle">En curso</span></h3><p>Desarrollo como módulo de una plataforma gubernamental de servicios hídricos. Rediseño 2.0 con design system propio.</p></div></div>
-        <div class="tl"><div class="dot"></div><div><h3>Próximo: piloto</h3><p>Prueba en un departamento y medición de tiempos de resolución.</p></div></div>
-      </div>
+    <div style="display:flex;gap:clamp(12px,2vw,28px);justify-content:center" class="rv" data-d="2">
+      <div class="phone" style="--pw:clamp(140px,16vw,280px);transform:rotate(-4deg)"><img src="assets/v2-mapa.png" alt="Mapa de surtidores" loading="lazy"></div>
+      <div class="phone" style="--pw:clamp(140px,16vw,280px);margin-top:clamp(30px,6vw,90px);transform:rotate(3deg)"><img src="assets/v2-cortes.png" alt="Cortes programados" loading="lazy"></div>
     </div>
-    <div style="width:760px;display:flex;flex-direction:column;gap:22px">
-      <div class="card" style="padding:30px">
-        <h3 style="font-size:24px">Funciones imprescindibles del MVP</h3>
-        <div class="tags mt-s"><span class="tag">Registro de usuario</span><span class="tag">Denuncia con foto</span><span class="tag">Geolocalización</span><span class="tag">Seguimiento de estado</span><span class="tag">Notificaciones</span></div>
-        <h3 style="font-size:24px;margin-top:26px">Funciones deseables, ya prototipadas</h3>
-        <div class="tags mt-s"><span class="tag">Mapa de surtidores</span><span class="tag">Cortes programados</span><span class="tag">Consejos de uso del agua</span></div>
-      </div>
-      <div class="ba" style="justify-content:center">
-        <div><p class="label">v1 · 2025</p><div class="phone xs v1"><img src="assets/v1-inicio.png" alt="Inicio del diseño original"></div></div>
-        <div style="align-self:center;color:var(--aqua-500)"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></div>
-        <div><p class="label new">v2 · rediseño</p><div class="phone xs"><img src="assets/v2-inicio.png" alt="Inicio del rediseño 2.0"></div></div>
-      </div>
-    </div>
-  </div>
-  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Estado actual</span></div>
-</section>
-
-<!-- ============ 9 · RESULTADOS ============ -->
-<section class="slide compact" data-title="Resultados de la investigación">
-  <div class="eyebrow"><span class="num">09</span>Resultados de las investigaciones y pruebas</div>
-  <h2>La necesidad existe y la disposición también</h2>
-  <div class="cols-4 mt-m">
-    <div class="stat accent"><div class="value">96,9<small>%</small></div><div class="label">usaría una app para reportar pérdidas de agua</div></div>
-    <div class="stat"><div class="value">29<small>%</small></div><div class="label">sabía qué hacer: la brecha está en la acción, no en el interés</div></div>
-    <div class="stat"><div class="value">6</div><div class="label">entrevistas cualitativas para validar la persona y priorizar funciones</div></div>
-    <div class="stat"><div class="value">3</div><div class="label">apps del sector analizadas en el benchmark competitivo</div></div>
-  </div>
-  <div class="cols-3 mt-m" style="gap:24px">
-    <div class="card"><h3>Encuesta cuantitativa</h3><p>Mayores de 18 años de seis departamentos del Gran Mendoza. Confirmó que el problema es <strong>visible, recurrente y urgente</strong>.</p></div>
-    <div class="card"><h3>Entrevistas y research en campo</h3><p>Conversaciones en un surtidor público. Pedidos repetidos: <strong>notificaciones, mapa, historial y confirmación de envío</strong>.</p></div>
-    <div class="card tint"><h3>Test de usabilidad</h3><p>Usuarios reales completaron el flujo de reporte <strong>sin instrucciones previas</strong>. Se simplificó el flujo quitando pasos innecesarios.</p></div>
-  </div>
-  <div class="quote mt-s"><p>“La confianza se gana mostrando que el reclamo se recibió. No alcanza con enviar: la app tiene que confirmar, mostrar el estado y dar seguimiento.”</p><cite>Key takeaway de la investigación</cite></div>
-  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Resultados</span></div>
-</section>
-
-<!-- ============ 10 · IMPACTO ============ -->
-<section class="slide dark" data-title="Impacto esperado">
-  <div class="eyebrow"><span class="num">10</span>Impacto ambiental y social esperado</div>
-  <h2>Menos agua perdida, más ciudadanía activa</h2>
-  <div class="cols-2 mt-l" style="gap:40px">
-    <div class="card brand" style="background:rgba(255,255,255,.07);padding:40px">
-      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></div>
-      <h3 style="font-size:34px">Impacto ambiental</h3>
-      <ul style="margin-top:18px;padding-left:28px;display:flex;flex-direction:column;gap:12px">
-        <li style="color:rgba(255,255,255,.88)"><strong>Menos tiempo</strong> entre que se detecta una pérdida y se repara, y por lo tanto menos agua desperdiciada.</li>
-        <li style="color:rgba(255,255,255,.88)"><strong>Datos georreferenciados</strong> para priorizar el mantenimiento de la red.</li>
-        <li style="color:rgba(255,255,255,.88)"><strong>Conciencia hídrica</strong> con consejos y alertas de cortes para planificar el uso.</li>
-      </ul>
-    </div>
-    <div class="card brand" style="background:rgba(255,255,255,.07);padding:40px">
-      <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-      <h3 style="font-size:34px">Impacto social</h3>
-      <ul style="margin-top:18px;padding-left:28px;display:flex;flex-direction:column;gap:12px">
-        <li style="color:rgba(255,255,255,.88)"><strong>Participación ciudadana</strong>: cualquier vecino puede ser parte de la solución.</li>
-        <li style="color:rgba(255,255,255,.88)"><strong>Transparencia y confianza</strong>: estados y tiempos de resolución visibles.</li>
-        <li style="color:rgba(255,255,255,.88)"><strong>Inclusión</strong>: diseño accesible para personas mayores o que no son nativas digitales.</li>
-      </ul>
-    </div>
-  </div>
-  <div class="tags mt-m">
-    <span class="tag">Indicadores a medir: tiempo promedio de resolución</span><span class="tag">% de reclamos resueltos</span><span class="tag">Reportes por zona</span><span class="tag">Adopción y recurrencia</span>
-  </div>
-  <div class="foot"><span class="brandmark"><img src="assets/logo-white.png" alt="">GotApp</span><span>Impacto esperado</span></div>
-</section>
-
-<!-- ============ CIERRE ============ -->
-<section class="slide cover" data-title="Gracias">
-  <div class="water"></div>
-  <img class="logo" src="assets/logo-white.png" alt="Logo de GotApp">
-  <h1 class="mt-m" style="color:#fff">Gracias</h1>
-  <p class="tagline">Cuidar el agua de Mendoza empieza con un reporte. GotApp lo hace simple.</p>
-  <p class="team">Equipo Azul · <strong>Francesca Zorrilla, Ismael Díaz, Emiliano García Fuenzalida, Daniel Llalen, Paula Pamela Marinero</strong></p>
-  <div class="phones">
-    <div class="phone lg"><img src="assets/v2-mapa.png" alt="Mapa de surtidores"></div>
-    <div class="phone lg"><img src="assets/v2-cortes.png" alt="Cortes programados"></div>
   </div>
 </section>
 
 </main>
-</div>
-
-<div class="chrome">
-  <span class="counter" id="counter">1 / 12</span>
-  <span class="hint">← → o barra espaciadora para avanzar · F pantalla completa</span>
-  <div class="nav-btns">
-    <button id="prevBtn" aria-label="Diapositiva anterior"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
-    <button id="nextBtn" aria-label="Diapositiva siguiente"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
-  </div>
-</div>
 
 <script>
 (function(){
-  const stage = document.getElementById('stage');
-  const slides = [...document.querySelectorAll('.slide')];
-  const counter = document.getElementById('counter');
-  const progress = document.getElementById('progress');
-  let i = 0;
+  const secs = [...document.querySelectorAll('.sec')];
+  const topbar = document.getElementById('topbar'), rail = document.getElementById('rail'), pager = document.getElementById('pager');
+  const menuBtn = document.getElementById('menuBtn'), menu = document.getElementById('menu'), list = document.getElementById('menuList'), preview = document.getElementById('menuPreview');
+  const nowNum = document.getElementById('nowNum'), nowTitle = document.getElementById('nowTitle'), count = document.getElementById('count'), progress = document.getElementById('progress');
+  const pad = n => String(n).padStart(2, '0');
+  const label = (s, i) => (i === 0 || i === secs.length - 1) ? (s.dataset.short || s.dataset.title) : s.dataset.title;
+  let current = -1;
 
-  function fit(){
-    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
-    stage.style.transform = 'translate(-50%,-50%) scale(' + s + ')';
-  }
-  function show(n){
-    i = Math.max(0, Math.min(slides.length - 1, n));
-    slides.forEach((el, k) => {
-      el.classList.toggle('active', k === i);
-      el.classList.toggle('prev', k < i);
-    });
-    counter.textContent = (i + 1) + ' / ' + slides.length;
-    progress.style.width = ((i + 1) / slides.length * 100) + '%';
-    try { history.replaceState(null, '', '#' + (i + 1)); } catch (e) {}
-  }
-  document.getElementById('prevBtn').onclick = () => show(i - 1);
-  document.getElementById('nextBtn').onclick = () => show(i + 1);
-  document.addEventListener('keydown', e => {
-    if (['ArrowRight','PageDown',' ','Enter'].includes(e.key)) { e.preventDefault(); show(i + 1); }
-    else if (['ArrowLeft','PageUp','Backspace'].includes(e.key)) { e.preventDefault(); show(i - 1); }
-    else if (e.key === 'Home') show(0);
-    else if (e.key === 'End') show(slides.length - 1);
-    else if (e.key.toLowerCase() === 'f') { if (!document.fullscreenElement) document.documentElement.requestFullscreen?.(); else document.exitFullscreen?.(); }
+  // Build menu + rail
+  secs.forEach((s, i) => {
+    const num = (i === 0 || i === secs.length - 1) ? '—' : pad(i);
+    const words = label(s, i).split(' ');
+    const last = words.pop();
+    const li = document.createElement('li');
+    li.innerHTML = `<a href="#${s.id}" style="--i:${i}" data-img="${s.dataset.img || ''}"><span class="mi">${num}</span><span class="ml">${words.join(' ')} <em>${last}</em></span></a>`;
+    list.appendChild(li);
+    const r = document.createElement('a');
+    r.href = '#' + s.id; r.innerHTML = `<span>${num === '—' ? '' : num + ' · '}${label(s, i)}</span>`;
+    r.setAttribute('aria-label', label(s, i));
+    rail.appendChild(r);
   });
-  let x0 = null;
-  document.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, {passive:true});
-  document.addEventListener('touchend', e => { if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1)); x0 = null; });
-  window.addEventListener('resize', fit);
-  fit();
-  const start = parseInt(location.hash.slice(1), 10);
-  show(Number.isFinite(start) ? start - 1 : 0);
+  const menuLinks = [...list.querySelectorAll('a')], railLinks = [...rail.querySelectorAll('a')];
+
+  function setMenu(open){
+    document.body.classList.toggle('menu-open', open);
+    menuBtn.setAttribute('aria-expanded', open);
+    menu.setAttribute('aria-hidden', !open);
+    document.getElementById('main').inert = open;
+    if (open) setTimeout(() => menuLinks[Math.max(current, 0)].focus({preventScroll:true}), 350); else menuBtn.focus({preventScroll:true});
+  }
+  menuBtn.addEventListener('click', () => setMenu(!document.body.classList.contains('menu-open')));
+  menuLinks.forEach(a => {
+    a.addEventListener('click', () => setMenu(false));
+    a.addEventListener('mouseenter', () => { if (a.dataset.img) { preview.style.opacity = 0; setTimeout(() => { preview.src = a.dataset.img; preview.style.opacity = 1; }, 160); } });
+  });
+
+  function go(i){
+    i = Math.max(0, Math.min(secs.length - 1, i));
+    secs[i].scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth'});
+  }
+  document.getElementById('prevBtn').onclick = () => go(current - 1);
+  document.getElementById('nextBtn').onclick = () => go(current + 1);
+
+  function activate(i){
+    if (i === current) return;
+    current = i;
+    const s = secs[i], dark = s.dataset.theme === 'dark';
+    topbar.classList.toggle('on-dark', dark); rail.classList.toggle('on-dark', dark); pager.classList.toggle('on-dark', dark);
+    nowTitle.classList.add('swap');
+    setTimeout(() => { nowNum.textContent = (i === 0 || i === secs.length - 1) ? '—' : pad(i); nowTitle.textContent = label(s, i); nowTitle.classList.remove('swap'); }, 220);
+    count.textContent = (i === 0 ? '00' : pad(Math.min(i, 10))) + ' / 10';
+    railLinks.forEach((a, k) => a.classList.toggle('active', k === i));
+    menuLinks.forEach((a, k) => a.classList.toggle('current', k === i));
+    document.getElementById('prevBtn').disabled = i === 0;
+    document.getElementById('nextBtn').disabled = i === secs.length - 1;
+    if (history.replaceState) history.replaceState(null, '', '#' + s.id);
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) activate(secs.indexOf(e.target)); });
+  }, {rootMargin: '-45% 0px -54% 0px'});
+  secs.forEach(s => io.observe(s));
+
+  // Reveal on scroll
+  const rio = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rio.unobserve(e.target); } }), {threshold: .12, rootMargin: '0px 0px -6% 0px'});
+  document.querySelectorAll('.rv').forEach(el => { if (el.dataset.d) el.style.setProperty('--d', el.dataset.d); rio.observe(el); });
+
+  // Progress
+  let ticking = false;
+  addEventListener('scroll', () => {
+    if (ticking) return; ticking = true;
+    requestAnimationFrame(() => { const h = document.documentElement.scrollHeight - innerHeight; progress.style.transform = 'scaleX(' + (h > 0 ? scrollY / h : 0) + ')'; ticking = false; });
+  }, {passive: true});
+
+  // Keyboard
+  addEventListener('keydown', e => {
+    if (e.target.closest && e.target.closest('input,textarea,select,[contenteditable]')) return;
+    const open = document.body.classList.contains('menu-open');
+    if (e.key === 'Escape' && open) { setMenu(false); return; }
+    if (e.key.toLowerCase() === 'm' && !e.metaKey && !e.ctrlKey) { setMenu(!open); return; }
+    if (open) return;
+    if (['ArrowDown','ArrowRight','PageDown'].includes(e.key) || (e.key === ' ' && !e.shiftKey)) { e.preventDefault(); go(current + 1); }
+    else if (['ArrowUp','ArrowLeft','PageUp'].includes(e.key) || (e.key === ' ' && e.shiftKey)) { e.preventDefault(); go(current - 1); }
+    else if (e.key === 'Home') { e.preventDefault(); go(0); }
+    else if (e.key === 'End') { e.preventDefault(); go(secs.length - 1); }
+  });
+  activate(0);
 })();
 </script>
 </body>
