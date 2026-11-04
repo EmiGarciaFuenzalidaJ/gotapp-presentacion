@@ -208,9 +208,9 @@ strong{color:var(--text);font-weight:650}
 @keyframes marq{to{transform:translateX(-50%)}}
 
 /* journey */
-.journey{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(12px,1.6vw,28px);align-items:start}
+.journey{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(10px,1.3vw,24px);align-items:start}
 .journey > div{display:flex;flex-direction:column;align-items:center}
-.journey .phone{--pw:clamp(140px,15vw,240px)}
+.journey .phone{--pw:clamp(130px,12.4vw,210px)}
 .step{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--brand);color:#fff;font-weight:800;margin-bottom:16px}
 @media (max-width:960px){
   .journey{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;margin:0 calc(var(--pad) * -1);padding:4px var(--pad) 20px;scrollbar-width:none}
@@ -368,8 +368,8 @@ body.menu-open .pager{opacity:0;pointer-events:none}
     </div>
   </div>
   <div class="marquee" aria-hidden="true"><div class="track">
-    <span>Reportá en 3 pasos<i></i>Seguimiento real<i></i>Transparencia<i></i>Cada gota cuenta<i></i>Mendoza<i></i>Participación ciudadana<i></i></span>
-    <span>Reportá en 3 pasos<i></i>Seguimiento real<i></i>Transparencia<i></i>Cada gota cuenta<i></i>Mendoza<i></i>Participación ciudadana<i></i></span>
+    <span>Reportá en 4 toques<i></i>Sin escribir<i></i>Seguimiento real<i></i>Transparencia<i></i>Cada gota cuenta<i></i>Mendoza<i></i>Participación ciudadana<i></i></span>
+    <span>Reportá en 4 toques<i></i>Sin escribir<i></i>Seguimiento real<i></i>Transparencia<i></i>Cada gota cuenta<i></i>Mendoza<i></i>Participación ciudadana<i></i></span>
   </div></div>
 </section>
 
@@ -437,9 +437,9 @@ body.menu-open .pager{opacity:0;pointer-events:none}
     <div>
       <div class="eyebrow rv"><span class="num">04</span>Solución propuesta</div>
       <h2 class="rv" style="--d:1">GotApp: reportar fácil, <em>recibir respuesta</em></h2>
-      <p class="lead rv" style="--d:2">Con una foto, un punto en el mapa y una breve descripción, el reclamo llega al organismo correspondiente. Sin número de factura ni trámites.</p>
+      <p class="lead rv" style="--d:2">Con la ubicación del GPS y dos elecciones con botones, el reclamo llega al organismo correspondiente. Sin escribir, sin número de factura y sin trámites.</p>
       <div class="g3 mt-m">
-        <div class="card soft rv" style="--d:1"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div><h3>Reportar</h3><p>Guiado en 3 pasos: foto, ubicación por GPS y detalles.</p></div>
+        <div class="card soft rv" style="--d:1"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg></div><h3>Reportar</h3><p>4 toques y sin teclado: ubicación, tipo de pérdida, cantidad de agua y enviar.</p></div>
         <div class="card soft rv" style="--d:2"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></svg></div><h3>Seguir</h3><p>Número de reclamo, estados claros y notificaciones.</p></div>
         <div class="card soft rv" style="--d:3"><div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2Z"/><path d="M9 4v14M15 6v14"/></svg></div><h3>Informarse</h3><p>Cortes programados, surtidores y consejos.</p></div>
       </div>
@@ -452,19 +452,20 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 05 · RECORRIDO ================= -->
-<section class="sec tint" id="s5" data-title="Recorrido del usuario" data-img="assets/v2-paso2-ubicacion.webp">
+<section class="sec tint" id="s5" data-title="Recorrido del usuario" data-img="assets/v2-paso2-tipo.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">05</span>Funcionamiento y recorrido del usuario</div>
     <h2 class="wide rv" style="--d:1">De ver la pérdida a <em>saber que se resolvió</em></h2>
-    <p class="lead rv" style="--d:2">Ana, vecina de Godoy Cruz, ve agua corriendo por la vereda camino a su trabajo. Así lo resuelve con GotApp:</p>
+    <p class="lead rv" style="--d:2">Ana, vecina de Godoy Cruz, ve agua corriendo por la vereda camino a su trabajo. La reporta en 4 toques, sin escribir nada:</p>
     <div class="journey mt-m">
-      <div class="rv" style="--d:1"><span class="step">1</span><div class="phone"><img src="assets/v2-paso1-foto.webp" alt="Paso 1: foto de la pérdida" loading="lazy"></div><p class="cap">Sacá una foto<span>Sin número de factura</span></p></div>
-      <div class="rv" style="--d:2"><span class="step">2</span><div class="phone"><img src="assets/v2-paso2-ubicacion.webp" alt="Paso 2: ubicación en el mapa" loading="lazy"></div><p class="cap">Marcá la ubicación<span>GPS + ajuste en el mapa</span></p></div>
-      <div class="rv" style="--d:3"><span class="step">3</span><div class="phone"><img src="assets/v2-paso3-detalles.webp" alt="Paso 3: tipo de pérdida y descripción" loading="lazy"></div><p class="cap">Contá qué pasa<span>Tipo y descripción breve</span></p></div>
-      <div class="rv" style="--d:4"><span class="step">4</span><div class="phone"><img src="assets/v2-enviado.webp" alt="Reporte enviado" loading="lazy"></div><p class="cap">Recibí tu número<span>Confirmación inmediata</span></p></div>
-      <div class="rv" style="--d:5"><span class="step">5</span><div class="phone"><img src="assets/v2-seguimiento.webp" alt="Seguimiento del reclamo" loading="lazy"></div><p class="cap">Seguí el estado<span>Recibido → En reparación → Resuelto</span></p></div>
+      <div class="rv" style="--d:1"><span class="step">1</span><div class="phone"><img src="assets/v2-paso1-ubicacion.webp" alt="Paso 1: confirmar la ubicación de la pérdida en el mapa" loading="lazy"></div><p class="cap">Confirmá dónde está<span>El GPS la ubica; si no, mové el mapa</span></p></div>
+      <div class="rv" style="--d:2"><span class="step">2</span><div class="phone"><img src="assets/v2-paso2-tipo.webp" alt="Paso 2: elegir el tipo de pérdida entre seis opciones con ícono" loading="lazy"></div><p class="cap">Elegí qué ves<span>6 opciones con ícono</span></p></div>
+      <div class="rv" style="--d:3"><span class="step">3</span><div class="phone"><img src="assets/v2-paso3-cantidad.webp" alt="Paso 3: elegir cuánta agua sale: gotea, corre o sale con fuerza" loading="lazy"></div><p class="cap">¿Cuánta agua sale?<span>Gotea, corre o sale con fuerza</span></p></div>
+      <div class="rv" style="--d:4"><span class="step">4</span><div class="phone"><img src="assets/v2-paso4-enviar.webp" alt="Paso 4: revisar y enviar, con foto y detalles opcionales" loading="lazy"></div><p class="cap">Revisá y enviá<span>Foto y detalles, opcionales</span></p></div>
+      <div class="rv" style="--d:5"><span class="step">5</span><div class="phone"><img src="assets/v2-enviado.webp" alt="Reporte enviado con número de reclamo" loading="lazy"></div><p class="cap">Recibí tu número<span>Confirmación inmediata</span></p></div>
+      <div class="rv" style="--d:6"><span class="step">6</span><div class="phone"><img src="assets/v2-seguimiento.webp" alt="Seguimiento del reclamo" loading="lazy"></div><p class="cap">Seguí el estado<span>Recibido → En reparación → Resuelto</span></p></div>
     </div>
-    <p class="swipe">Deslizá para ver los 5 pasos →</p>
+    <p class="swipe">Deslizá para ver el recorrido completo →</p>
   </div>
 </section>
 
@@ -554,7 +555,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 09 · RESULTADOS ================= -->
-<section class="sec" id="s9" data-title="Resultados" data-img="assets/v2-paso3-detalles.webp">
+<section class="sec" id="s9" data-title="Resultados" data-img="assets/v2-paso3-cantidad.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">09</span>Resultados de las investigaciones y pruebas</div>
     <h2 class="wide rv" style="--d:1">La necesidad existe. <em>La disposición también.</em></h2>
@@ -611,7 +612,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
         <p class="big rv" style="--d:1">Gra<em>cias</em></p>
         <p class="lead rv" style="--d:2">Cuidar el agua de Mendoza empieza con un reporte. GotApp lo hace simple: el vecino reporta en un minuto y sabe en todo momento qué pasa con su reclamo.</p>
         <div class="recap rv" style="--d:3">
-          <div><b>3</b><span>pasos para reportar: foto, ubicación y detalles</span></div>
+          <div><b>4</b><span>toques para reportar, sin escribir nada</span></div>
           <div><b>1</b><span>número de reclamo para seguirlo de punta a punta</span></div>
           <div><b>4</b><span>estados visibles, de Recibido a Resuelto</span></div>
         </div>
