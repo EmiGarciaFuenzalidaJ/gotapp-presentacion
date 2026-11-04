@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#072A5E">
 <meta property="og:title" content="GotApp · Cuidemos el agua">
 <meta property="og:description" content="Reportá una pérdida de agua en menos de un minuto y seguí tu reclamo hasta que se resuelva.">
-<meta property="og:image" content="assets/v2-inicio.png">
+<meta property="og:image" content="https://emigarciafuenzalidaj.github.io/gotapp-presentacion/assets/og-inicio.png">
 <link rel="icon" href="assets/logo-white.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -95,9 +95,9 @@ body.menu-open .menu li a{transform:none;transition-delay:calc(.15s + var(--i) *
 .menu li a .ml em{font-style:normal}
 .menu li a:hover .ml,.menu li a.current .ml{color:var(--aqua-300)}
 .menu li a:hover .ml em,.menu li a.current .ml em{font-family:var(--serif);font-style:italic;font-weight:400;letter-spacing:-.01em}
-.menu .preview{align-self:center;justify-self:center;position:relative;width:min(100%,340px);aspect-ratio:390/844;border-radius:44px;padding:10px;background:#000;box-shadow:0 40px 100px -20px rgba(0,0,0,.6);opacity:0;transform:translateY(40px) rotate(4deg);transition:opacity .6s var(--ease) .25s,transform .9s var(--ease) .2s}
+.menu .preview{--pw:min(30vw,320px);align-self:center;justify-self:center;opacity:0;transform:translateY(40px) rotate(4deg);transition:opacity .6s var(--ease) .25s,transform .9s var(--ease) .2s}
 body.menu-open .menu .preview{opacity:1;transform:rotate(-3deg)}
-.menu .preview img{width:100%;height:100%;object-fit:cover;border-radius:35px;transition:opacity .35s}
+.menu .preview img{transition:opacity .35s}
 .menu .meta{position:absolute;left:var(--pad);bottom:clamp(16px,3vh,32px);font-size:13px;color:rgba(255,255,255,.55);letter-spacing:.04em}
 @media (max-width:860px){.menu{grid-template-columns:1fr}.menu .preview{display:none}.menu .meta{position:static;margin-top:24px}}
 
@@ -163,9 +163,16 @@ strong{color:var(--text);font-weight:650}
 .dark .quote cite,.deep .quote cite{color:rgba(255,255,255,.6)}
 
 /* phones */
-.phone{width:var(--pw,clamp(200px,20vw,320px));aspect-ratio:390/844;border-radius:calc(var(--pw,clamp(200px,20vw,320px)) * .15);padding:calc(var(--pw,clamp(200px,20vw,320px)) * .032);background:var(--gray-900);box-shadow:0 40px 80px -24px rgba(4,25,61,.4);flex:none;transition:transform .7s var(--ease)}
-.phone img{width:100%;height:100%;object-fit:cover;border-radius:calc(var(--pw,clamp(200px,20vw,320px)) * .12);background:#fff}
-.phone:hover{transform:translateY(-8px) rotate(-1deg)}
+/* Device frame: the screen keeps the exact 390×844 ratio of the Figma exports, so nothing is cropped. */
+.phone{--pw:clamp(200px,20vw,320px);position:relative;width:var(--pw);flex:none;padding:calc(var(--pw) * .03);border-radius:calc(var(--pw) * .165);
+  background:linear-gradient(150deg,#3a4556 0%,#121924 38%,#0a0f17 62%,#2a3342 100%);
+  box-shadow:inset 0 0 0 calc(var(--pw) * .004) rgba(255,255,255,.22),inset 0 0 0 calc(var(--pw) * .012) #06090e,0 2px 4px rgba(4,25,61,.18),0 24px 48px -16px rgba(4,25,61,.42),0 60px 90px -40px rgba(4,25,61,.45);
+  transition:translate .6s var(--ease)}
+.phone::before{content:"";position:absolute;z-index:2;top:calc(var(--pw) * .052);left:50%;width:calc(var(--pw) * .27);height:calc(var(--pw) * .078);translate:-50% 0;border-radius:999px;background:#05070b;box-shadow:inset 0 0 0 1px rgba(255,255,255,.05)}
+.phone::after{content:"";position:absolute;right:calc(var(--pw) * -.011);top:26%;width:calc(var(--pw) * .012);height:13%;border-radius:0 3px 3px 0;background:linear-gradient(90deg,#141a23,#3a4556)}
+.phone img{display:block;width:100%;height:auto;aspect-ratio:390/844;object-fit:cover;object-position:top;border-radius:calc(var(--pw) * .135);background:#fff}
+.phone:hover{translate:0 -8px}
+.dark .phone,.deep .phone,#s0 .phone{box-shadow:inset 0 0 0 calc(var(--pw) * .004) rgba(255,255,255,.3),inset 0 0 0 calc(var(--pw) * .012) #06090e,0 30px 70px -20px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.06)}
 .cap{margin-top:16px;text-align:center;font-weight:700;color:var(--brand);font-size:clamp(14px,1.05vw,17px)}
 .cap span{display:block;font-weight:400;color:var(--muted);font-size:.88em;margin-top:2px}
 
@@ -203,13 +210,13 @@ strong{color:var(--text);font-weight:650}
 /* journey */
 .journey{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(12px,1.6vw,28px);align-items:start}
 .journey > div{display:flex;flex-direction:column;align-items:center}
-.journey .phone{--pw:100%;max-width:250px;width:100%;border-radius:clamp(24px,2.6vw,40px);padding:clamp(6px,.6vw,9px)}
-.journey .phone img{border-radius:clamp(18px,2.1vw,32px)}
+.journey .phone{--pw:clamp(140px,15vw,240px)}
 .step{display:inline-grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--brand);color:#fff;font-weight:800;margin-bottom:16px}
 @media (max-width:960px){
   .journey{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:16px;margin:0 calc(var(--pad) * -1);padding:4px var(--pad) 20px;scrollbar-width:none}
   .journey::-webkit-scrollbar{display:none}
   .journey > div{scroll-snap-align:center;flex:0 0 min(64vw,250px)}
+  .journey .phone{--pw:min(60vw,236px)}
 }
 .swipe{display:none;font-size:13px;color:var(--gray-500);margin-top:8px}
 @media (max-width:960px){.swipe{display:block}}
@@ -245,8 +252,46 @@ th:first-child{background:var(--gray-25)}
 .ba .arrow{color:var(--aqua-500)}
 
 /* closing */
-#s11 .big{font-size:clamp(72px,16vw,260px);line-height:.85;font-weight:900;letter-spacing:-.06em;color:#fff}
+#s11{background:radial-gradient(800px 520px at 78% 38%,rgba(7,147,182,.30),transparent 62%),linear-gradient(165deg,var(--navy-800),var(--navy-950) 70%);padding-bottom:0;justify-content:flex-start}
+#s11 .big{font-size:clamp(72px,13.5vw,224px);line-height:.85;font-weight:900;letter-spacing:-.06em;color:#fff}
 #s11 .big em{color:var(--aqua-300)}
+.close-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,5vw,88px);align-items:center}
+.close-grid > *{min-width:0}
+.recap{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(12px,1.6vw,24px);margin-top:clamp(28px,4.5vh,48px);max-width:720px}
+.recap div{border-top:1px solid rgba(255,255,255,.22);padding-top:14px}
+.recap b{display:block;font-size:clamp(34px,3.6vw,56px);line-height:1;font-weight:800;letter-spacing:-.04em;color:#fff;font-variant-numeric:tabular-nums}
+.recap span{display:block;margin-top:8px;font-size:clamp(13px,1vw,16px);line-height:1.4;color:rgba(255,255,255,.72)}
+.next{display:flex;gap:16px;align-items:flex-start;margin-top:clamp(24px,4vh,40px);max-width:720px;padding:clamp(16px,1.6vw,22px) clamp(18px,1.8vw,26px);border-radius:var(--radius);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12)}
+.next .ico{flex:none;margin:0;width:44px;height:44px}
+.next p{color:rgba(255,255,255,.82)}
+.next strong{display:block;color:#fff;margin-bottom:2px}
+.close-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(24px,4vh,40px)}
+.btn.ghost{border:1px solid rgba(255,255,255,.35);color:#fff}
+.btn.ghost:hover{background:rgba(255,255,255,.1);transform:translateY(-2px)}
+.close-art{position:relative;justify-self:center;width:min(100%,520px);aspect-ratio:1}
+.close-art .mascot{position:absolute;inset:6% 10% 14% 4%;border-radius:50%;box-shadow:0 0 0 clamp(10px,1.2vw,18px) rgba(108,197,223,.08),0 0 0 clamp(22px,2.6vw,38px) rgba(108,197,223,.05),0 40px 90px -30px rgba(0,0,0,.6)}
+.close-art .mascot img{width:100%;height:100%;border-radius:50%}
+.close-art .phone{--pw:clamp(130px,15vw,210px);position:absolute;right:0;bottom:0;rotate:6deg;animation:bob 7s ease-in-out infinite}
+.close-art .badge{position:absolute;left:0;bottom:8%;display:flex;align-items:center;gap:10px;padding:10px 16px 10px 10px;border-radius:999px;background:#fff;color:var(--brand);font-weight:700;font-size:clamp(13px,1vw,15px);box-shadow:0 20px 40px -16px rgba(0,0,0,.5);animation:bob 7s ease-in-out -3.5s infinite}
+.close-art .badge i{width:30px;height:30px;border-radius:50%;background:var(--green-50);color:var(--green-600);display:grid;place-items:center}
+.close-art .badge svg{width:16px;height:16px}
+@keyframes bob{50%{translate:0 -10px}}
+.team{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-width:1040px;gap:clamp(12px,1.6vw,24px);margin-top:clamp(40px,7vh,80px);padding-top:clamp(24px,4vh,40px);border-top:1px solid rgba(255,255,255,.12)}
+.team .eyebrow{grid-column:1/-1;margin-bottom:0}
+.member{display:flex;align-items:center;gap:18px}
+.member .av{flex:none;width:clamp(52px,4.4vw,64px);aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:var(--aqua-300);color:var(--navy-900);font-weight:800;font-size:clamp(17px,1.4vw,21px);letter-spacing:-.02em}
+.member .av.b{background:#fff}
+.member h3{font-size:clamp(19px,1.6vw,26px)}
+.member p{margin-top:2px;font-size:clamp(14px,1vw,16px)}
+.waves{position:relative;margin:clamp(40px,7vh,80px) calc(var(--pad) * -1) 0;height:clamp(70px,9vw,120px);overflow:hidden}
+.waves svg{position:absolute;bottom:0;left:0;width:200%;height:100%;animation:drift 26s linear infinite}
+.waves svg:nth-of-type(2){animation-duration:38s;animation-direction:reverse;opacity:.6}
+@keyframes drift{to{transform:translateX(-50%)}}
+.close-foot{position:absolute;left:var(--pad);right:var(--pad);bottom:clamp(14px,2.4vh,22px);display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 24px;font-size:13px;color:rgba(255,255,255,.7);z-index:1}
+@media (max-width:960px){.close-grid{grid-template-columns:minmax(0,1fr)}.close-art{width:min(100%,420px);margin-top:8px}.recap{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:720px){.team{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:480px){.recap{gap:10px}.recap b{font-size:30px}.waves{height:auto;min-height:70px;padding-top:44px}.close-foot{position:relative;inset:auto;padding:0 var(--pad) 18px}}
+@media (prefers-reduced-motion:reduce){.close-art .phone,.close-art .badge,.waves svg{animation:none}}
 
 /* reveal */
 .rv{opacity:0;transform:translateY(28px);transition:opacity .9s var(--ease),transform .9s var(--ease);transition-delay:calc(var(--d,0) * 90ms)}
@@ -292,7 +337,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 
 <nav class="menu" id="menu" aria-label="Índice de la presentación" aria-hidden="true">
   <ol id="menuList"></ol>
-  <div class="preview" aria-hidden="true"><img id="menuPreview" src="assets/v2-inicio.png" alt=""></div>
+  <div class="preview phone" aria-hidden="true"><img id="menuPreview" src="assets/v2-inicio.webp" alt=""></div>
   <p class="meta">Usá ↑ ↓ o ← → para moverte · M abre el índice · Esc lo cierra</p>
 </nav>
 
@@ -306,7 +351,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 <main id="main">
 
 <!-- ================= 00 · COVER ================= -->
-<section class="sec" id="s0" data-title="Portada" data-short="Inicio" data-theme="dark" data-img="assets/v2-inicio.png">
+<section class="sec" id="s0" data-title="Portada" data-short="Inicio" data-theme="dark" data-img="assets/v2-inicio.webp">
   <div class="wrap cover-grid">
     <div class="cover-copy">
       <div class="kicker rv"><img src="assets/logo-white.png" alt="Logo de GotApp: una gota con la cordillera">Cuidemos el agua · Mendoza</div>
@@ -318,8 +363,8 @@ body.menu-open .pager{opacity:0;pointer-events:none}
       </div>
     </div>
     <div class="cover-phones rv" style="--d:2">
-      <div class="phone"><img src="assets/v2-inicio.png" alt="Pantalla de inicio de GotApp"></div>
-      <div class="phone"><img src="assets/v2-seguimiento.png" alt="Seguimiento de un reclamo en GotApp"></div>
+      <div class="phone"><img src="assets/v2-inicio.webp" alt="Pantalla de inicio de GotApp"></div>
+      <div class="phone"><img src="assets/v2-seguimiento.webp" alt="Seguimiento de un reclamo en GotApp"></div>
     </div>
   </div>
   <div class="marquee" aria-hidden="true"><div class="track">
@@ -329,7 +374,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 01 · PROYECTO ================= -->
-<section class="sec" id="s1" data-title="Proyecto y propósito" data-img="assets/v2-bienvenida.png">
+<section class="sec" id="s1" data-title="Proyecto y propósito" data-img="assets/v2-bienvenida.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">01</span>Presentación del proyecto y propósito</div>
     <div class="split">
@@ -348,7 +393,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 02 · PROBLEMÁTICA ================= -->
-<section class="sec" id="s2" data-title="Problemática" data-img="assets/v1-reportar.png">
+<section class="sec" id="s2" data-title="Problemática" data-img="assets/v1-reportar.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">02</span>Problemática detectada</div>
     <h2 class="wide rv" style="--d:1">Todos ven las pérdidas. <em>Casi nadie</em> sabe cómo reportarlas.</h2>
@@ -368,7 +413,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 03 · JUSTIFICACIÓN ================= -->
-<section class="sec deep" id="s3" data-title="Justificación" data-theme="dark" data-img="assets/v2-cortes.png">
+<section class="sec deep" id="s3" data-title="Justificación" data-theme="dark" data-img="assets/v2-cortes.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">03</span>Justificación · El agua en Mendoza</div>
     <div class="split">
@@ -387,7 +432,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 04 · SOLUCIÓN ================= -->
-<section class="sec" id="s4" data-title="Solución" data-img="assets/v2-enviado.png">
+<section class="sec" id="s4" data-title="Solución" data-img="assets/v2-enviado.webp">
   <div class="wrap split">
     <div>
       <div class="eyebrow rv"><span class="num">04</span>Solución propuesta</div>
@@ -400,31 +445,31 @@ body.menu-open .pager{opacity:0;pointer-events:none}
       </div>
     </div>
     <div style="display:flex;gap:clamp(12px,2vw,28px);justify-content:center" class="rv" data-d="2">
-      <div><div class="phone" style="--pw:clamp(150px,17vw,290px)"><img src="assets/v2-inicio.png" alt="Inicio de GotApp con el botón Reportar una pérdida"></div><p class="cap">Inicio<span>La acción principal, a un toque</span></p></div>
-      <div style="margin-top:clamp(24px,6vw,80px)"><div class="phone" style="--pw:clamp(150px,17vw,290px)"><img src="assets/v2-enviado.png" alt="Confirmación de reporte enviado con número de reclamo"></div><p class="cap">Confirmación<span>Número y estado del reclamo</span></p></div>
+      <div><div class="phone" style="--pw:clamp(150px,17vw,290px)"><img src="assets/v2-inicio.webp" alt="Inicio de GotApp con el botón Reportar una pérdida"></div><p class="cap">Inicio<span>La acción principal, a un toque</span></p></div>
+      <div style="margin-top:clamp(24px,6vw,80px)"><div class="phone" style="--pw:clamp(150px,17vw,290px)"><img src="assets/v2-enviado.webp" alt="Confirmación de reporte enviado con número de reclamo"></div><p class="cap">Confirmación<span>Número y estado del reclamo</span></p></div>
     </div>
   </div>
 </section>
 
 <!-- ================= 05 · RECORRIDO ================= -->
-<section class="sec tint" id="s5" data-title="Recorrido del usuario" data-img="assets/v2-paso2-ubicacion.png">
+<section class="sec tint" id="s5" data-title="Recorrido del usuario" data-img="assets/v2-paso2-ubicacion.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">05</span>Funcionamiento y recorrido del usuario</div>
     <h2 class="wide rv" style="--d:1">De ver la pérdida a <em>saber que se resolvió</em></h2>
     <p class="lead rv" style="--d:2">Ana, vecina de Godoy Cruz, ve agua corriendo por la vereda camino a su trabajo. Así lo resuelve con GotApp:</p>
     <div class="journey mt-m">
-      <div class="rv" style="--d:1"><span class="step">1</span><div class="phone"><img src="assets/v2-paso1-foto.png" alt="Paso 1: foto de la pérdida" loading="lazy"></div><p class="cap">Sacá una foto<span>Sin número de factura</span></p></div>
-      <div class="rv" style="--d:2"><span class="step">2</span><div class="phone"><img src="assets/v2-paso2-ubicacion.png" alt="Paso 2: ubicación en el mapa" loading="lazy"></div><p class="cap">Marcá la ubicación<span>GPS + ajuste en el mapa</span></p></div>
-      <div class="rv" style="--d:3"><span class="step">3</span><div class="phone"><img src="assets/v2-paso3-detalles.png" alt="Paso 3: tipo de pérdida y descripción" loading="lazy"></div><p class="cap">Contá qué pasa<span>Tipo y descripción breve</span></p></div>
-      <div class="rv" style="--d:4"><span class="step">4</span><div class="phone"><img src="assets/v2-enviado.png" alt="Reporte enviado" loading="lazy"></div><p class="cap">Recibí tu número<span>Confirmación inmediata</span></p></div>
-      <div class="rv" style="--d:5"><span class="step">5</span><div class="phone"><img src="assets/v2-seguimiento.png" alt="Seguimiento del reclamo" loading="lazy"></div><p class="cap">Seguí el estado<span>Recibido → En proceso → Resuelto</span></p></div>
+      <div class="rv" style="--d:1"><span class="step">1</span><div class="phone"><img src="assets/v2-paso1-foto.webp" alt="Paso 1: foto de la pérdida" loading="lazy"></div><p class="cap">Sacá una foto<span>Sin número de factura</span></p></div>
+      <div class="rv" style="--d:2"><span class="step">2</span><div class="phone"><img src="assets/v2-paso2-ubicacion.webp" alt="Paso 2: ubicación en el mapa" loading="lazy"></div><p class="cap">Marcá la ubicación<span>GPS + ajuste en el mapa</span></p></div>
+      <div class="rv" style="--d:3"><span class="step">3</span><div class="phone"><img src="assets/v2-paso3-detalles.webp" alt="Paso 3: tipo de pérdida y descripción" loading="lazy"></div><p class="cap">Contá qué pasa<span>Tipo y descripción breve</span></p></div>
+      <div class="rv" style="--d:4"><span class="step">4</span><div class="phone"><img src="assets/v2-enviado.webp" alt="Reporte enviado" loading="lazy"></div><p class="cap">Recibí tu número<span>Confirmación inmediata</span></p></div>
+      <div class="rv" style="--d:5"><span class="step">5</span><div class="phone"><img src="assets/v2-seguimiento.webp" alt="Seguimiento del reclamo" loading="lazy"></div><p class="cap">Seguí el estado<span>Recibido → En reparación → Resuelto</span></p></div>
     </div>
     <p class="swipe">Deslizá para ver los 5 pasos →</p>
   </div>
 </section>
 
 <!-- ================= 06 · PÚBLICO Y ACTORES ================= -->
-<section class="sec" id="s6" data-title="Público y actores" data-img="assets/v2-perfil.png">
+<section class="sec" id="s6" data-title="Público y actores" data-img="assets/v2-perfil.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">06</span>Público objetivo y actores involucrados</div>
     <div class="split" style="align-items:start">
@@ -455,7 +500,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 07 · VALOR ================= -->
-<section class="sec" id="s7" data-title="Propuesta de valor" data-img="assets/v2-mis-reportes.png">
+<section class="sec" id="s7" data-title="Propuesta de valor" data-img="assets/v2-mis-reclamos.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">07</span>Propuesta de valor y diferenciación</div>
     <h2 class="wide rv" style="--d:1">Las apps existentes están hechas para facturar. <em>GotApp, para reportar.</em></h2>
@@ -478,7 +523,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 08 · ESTADO Y MVP ================= -->
-<section class="sec tint" id="s8" data-title="Estado actual y MVP" data-img="assets/v1-inicio.png">
+<section class="sec tint" id="s8" data-title="Estado actual y MVP" data-img="assets/v1-inicio.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">08</span>Estado actual del proyecto y validación del MVP</div>
     <div class="split" style="align-items:start">
@@ -499,9 +544,9 @@ body.menu-open .pager{opacity:0;pointer-events:none}
           <div class="tags mt-s"><span class="tag">Mapa de surtidores</span><span class="tag">Cortes programados</span><span class="tag">Consejos de uso del agua</span></div>
         </div>
         <div class="ba rv" style="--d:3">
-          <div><p class="lab">v1 · 2025</p><div class="phone"><img src="assets/v1-inicio.png" alt="Inicio del diseño original" loading="lazy"></div></div>
+          <div><p class="lab">Versión 1</p><div class="phone"><img src="assets/v1-inicio.webp" alt="Inicio del diseño original" loading="lazy"></div></div>
           <svg class="arrow" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-          <div><p class="lab new">v2 · rediseño</p><div class="phone"><img src="assets/v2-inicio.png" alt="Inicio del rediseño 2.0" loading="lazy"></div></div>
+          <div><p class="lab new">Versión 2.0</p><div class="phone"><img src="assets/v2-inicio.webp" alt="Inicio del rediseño 2.0" loading="lazy"></div></div>
         </div>
       </div>
     </div>
@@ -509,7 +554,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 09 · RESULTADOS ================= -->
-<section class="sec" id="s9" data-title="Resultados" data-img="assets/v2-paso3-detalles.png">
+<section class="sec" id="s9" data-title="Resultados" data-img="assets/v2-paso3-detalles.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">09</span>Resultados de las investigaciones y pruebas</div>
     <h2 class="wide rv" style="--d:1">La necesidad existe. <em>La disposición también.</em></h2>
@@ -529,7 +574,7 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 10 · IMPACTO ================= -->
-<section class="sec dark" id="s10" data-title="Impacto esperado" data-theme="dark" data-img="assets/v2-mapa.png">
+<section class="sec dark" id="s10" data-title="Impacto esperado" data-theme="dark" data-img="assets/v2-mapa.webp">
   <div class="wrap">
     <div class="eyebrow rv"><span class="num">10</span>Impacto ambiental y social esperado</div>
     <h2 class="wide rv" style="--d:1">Menos agua perdida, <em>más ciudadanía activa</em></h2>
@@ -558,22 +603,43 @@ body.menu-open .pager{opacity:0;pointer-events:none}
 </section>
 
 <!-- ================= 11 · GRACIAS ================= -->
-<section class="sec deep" id="s11" data-title="Gracias" data-short="Gracias" data-theme="dark" data-img="assets/v2-seguimiento.png">
-  <div class="wrap split">
-    <div>
-      <div class="eyebrow rv">Cierre</div>
-      <p class="big rv" style="--d:1">Gra<em>cias</em></p>
-      <p class="lead rv" style="--d:2">Cuidar el agua de Mendoza empieza con un reporte. GotApp lo hace simple.</p>
-      <div class="g2 mt-l" style="max-width:720px">
-        <div class="rv" style="--d:3"><p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--aqua-300)">Equipo</p><h3 class="mt-s">Paula Pamela Marinero</h3></div>
-        <div class="rv" style="--d:4"><p style="font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--aqua-300)">Equipo</p><h3 class="mt-s">Emiliano García Fuenzalida</h3></div>
+<section class="sec deep" id="s11" data-title="Gracias" data-short="Gracias" data-theme="dark" data-img="assets/v2-enviado.webp">
+  <div class="wrap">
+    <div class="close-grid">
+      <div>
+        <div class="eyebrow rv">Cierre</div>
+        <p class="big rv" style="--d:1">Gra<em>cias</em></p>
+        <p class="lead rv" style="--d:2">Cuidar el agua de Mendoza empieza con un reporte. GotApp lo hace simple: el vecino reporta en un minuto y sabe en todo momento qué pasa con su reclamo.</p>
+        <div class="recap rv" style="--d:3">
+          <div><b>3</b><span>pasos para reportar: foto, ubicación y detalles</span></div>
+          <div><b>1</b><span>número de reclamo para seguirlo de punta a punta</span></div>
+          <div><b>4</b><span>estados visibles, de Recibido a Resuelto</span></div>
+        </div>
+        <div class="next rv" style="--d:4">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg></div>
+          <p><strong>Próximo paso: el piloto</strong>Prueba en un departamento con medición de tiempos de resolución, y un test de usabilidad de la versión 2.0 con vecinos de Godoy Cruz.</p>
+        </div>
+        <div class="close-cta rv" style="--d:5">
+          <a class="btn light" href="#s0">Volver al inicio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+          <a class="btn ghost" href="#s5">Ver el recorrido</a>
+        </div>
       </div>
-      <a class="btn light mt-l rv" style="--d:5" href="#s0">Volver al inicio <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></a>
+      <div class="close-art rv" style="--d:2">
+        <div class="mascot"><img src="assets/mascota.webp" alt="Ilustración de GotApp: una gota sonriente abrazando la cordillera" loading="lazy" width="630" height="630"></div>
+        <div class="phone"><img src="assets/v2-enviado.webp" alt="Pantalla de GotApp: ¡Reporte enviado! Gracias por cuidar el agua de Mendoza" loading="lazy" width="390" height="844"></div>
+        <div class="badge" aria-hidden="true"><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></i>Reclamo #GA-10521 recibido</div>
+      </div>
     </div>
-    <div style="display:flex;gap:clamp(12px,2vw,28px);justify-content:center" class="rv" data-d="2">
-      <div class="phone" style="--pw:clamp(140px,16vw,280px);transform:rotate(-4deg)"><img src="assets/v2-mapa.png" alt="Mapa de surtidores" loading="lazy"></div>
-      <div class="phone" style="--pw:clamp(140px,16vw,280px);margin-top:clamp(30px,6vw,90px);transform:rotate(3deg)"><img src="assets/v2-cortes.png" alt="Cortes programados" loading="lazy"></div>
+    <div class="team">
+      <div class="eyebrow rv">Equipo</div>
+      <div class="member rv" style="--d:1"><span class="av" aria-hidden="true">PM</span><div><h3>Paula Pamela Marinero</h3><p>Diseño UX/UI e investigación</p></div></div>
+      <div class="member rv" style="--d:2"><span class="av b" aria-hidden="true">EG</span><div><h3>Emiliano García Fuenzalida</h3><p>Diseño UX/UI e investigación</p></div></div>
     </div>
+  </div>
+  <div class="waves" aria-hidden="true">
+    <svg viewBox="0 0 2880 120" preserveAspectRatio="none"><path fill="rgba(108,197,223,.10)" d="M0 60c120-30 240-30 360 0s240 30 360 0 240-30 360 0 240 30 360 0 240-30 360 0 240 30 360 0 240-30 360 0 240 30 360 0V120H0z"/></svg>
+    <svg viewBox="0 0 2880 120" preserveAspectRatio="none"><path fill="rgba(108,197,223,.08)" d="M0 80c80-24 160-24 240 0s160 24 240 0s160 -24 240 0s160 24 240 0s160 -24 240 0s160 24 240 0s160 -24 240 0s160 24 240 0s160 -24 240 0s160 24 240 0s160 -24 240 0s160 24 240 0V120H0z"/></svg>
+    <p class="close-foot"><span>GotApp · Cuidemos el agua · Mendoza</span><span>Proyecto final de bootcamp UX/UI, hoy en incubación con el gobierno provincial</span></p>
   </div>
 </section>
 
